@@ -17,6 +17,23 @@
             <petclinic:inputField label="Address" name="address"/>
             <petclinic:inputField label="City" name="city"/>
             <petclinic:inputField label="Telephone" name="telephone"/>
+            <spring:bind path="birthDate">
+                <c:set var="cssGroup" value="form-group ${status.error ? 'has-error' : '' }"/>
+                <c:set var="valid" value="${not status.error}"/>
+                <div class="${cssGroup}">
+                    <label class="col-sm-2 control-label">Birth Date</label>
+                    <div class="col-sm-10">
+                        <form:input class="form-control" path="birthDate" type="date"/>
+                        <c:if test="${valid}">
+                            <span class="fa fa-ok form-control-feedback" aria-hidden="true"></span>
+                        </c:if>
+                        <c:if test="${status.error}">
+                            <span class="fa fa-remove form-control-feedback" aria-hidden="true"></span>
+                            <span class="help-inline">${status.errorMessage}</span>
+                        </c:if>
+                    </div>
+                </div>
+            </spring:bind>
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">

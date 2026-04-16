@@ -1,0 +1,20 @@
+- generic [active] [ref=e1]:
+  - heading "HTTP ERROR 503 Service Unavailable" [level=2] [ref=e2]
+  - table [ref=e3]:
+    - rowgroup [ref=e4]:
+      - 'row "URI: /petclinic" [ref=e5]':
+        - rowheader "URI:" [ref=e6]
+        - cell "/petclinic" [ref=e7]
+      - 'row "STATUS: 503" [ref=e8]':
+        - rowheader "STATUS:" [ref=e9]
+        - cell "503" [ref=e10]
+      - 'row "MESSAGE: Service Unavailable" [ref=e11]':
+        - rowheader "MESSAGE:" [ref=e12]
+        - cell "Service Unavailable" [ref=e13]
+      - 'row "SERVLET: -" [ref=e14]':
+        - rowheader "SERVLET:" [ref=e15]
+        - cell "-" [ref=e16]
+  - separator [ref=e17]
+  - link "Powered by Jetty:// 11.0.26" [ref=e18] [cursor=pointer]:
+    - /url: https://jetty.org
+  - separator [ref=e19]
