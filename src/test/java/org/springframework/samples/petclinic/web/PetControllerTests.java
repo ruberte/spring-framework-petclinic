@@ -51,7 +51,10 @@ class PetControllerTests {
         cat.setId(3);
         cat.setName("hamster");
         given(this.clinicService.findPetTypes()).willReturn(Lists.newArrayList(cat));
-        given(this.clinicService.findOwnerById(TEST_OWNER_ID)).willReturn(new Owner());
+
+        Owner owner = new Owner();
+        owner.setBirthDate(java.time.LocalDate.of(1990, 1, 1));
+        given(this.clinicService.findOwnerById(TEST_OWNER_ID)).willReturn(owner);
         given(this.clinicService.findPetById(TEST_PET_ID)).willReturn(new Pet());
     }
 
@@ -68,7 +71,7 @@ class PetControllerTests {
         mockMvc.perform(post("/owners/{ownerId}/pets/new", TEST_OWNER_ID)
             .param("name", "Betty")
             .param("type", "hamster")
-            .param("birthDate", "2015/02/12")
+            .param("birthDate", "2015-02-12")
         )
             .andExpect(status().is3xxRedirection())
             .andExpect(view().name("redirect:/owners/{ownerId}"));
@@ -78,7 +81,7 @@ class PetControllerTests {
     void testProcessCreationFormHasErrors() throws Exception {
         mockMvc.perform(post("/owners/{ownerId}/pets/{petId}/edit", TEST_OWNER_ID, TEST_PET_ID)
             .param("name", "Betty")
-            .param("birthDate", "2015/02/12")
+            .param("birthDate", "2015-02-12")
         )
             .andExpect(model().attributeHasNoErrors("owner"))
             .andExpect(model().attributeHasErrors("pet"))
@@ -99,7 +102,7 @@ class PetControllerTests {
         mockMvc.perform(post("/owners/{ownerId}/pets/{petId}/edit", TEST_OWNER_ID, TEST_PET_ID)
             .param("name", "Betty")
             .param("type", "hamster")
-            .param("birthDate", "2015/02/12")
+            .param("birthDate", "2015-02-12")
         )
             .andExpect(status().is3xxRedirection())
             .andExpect(view().name("redirect:/owners/{ownerId}"));
@@ -109,7 +112,7 @@ class PetControllerTests {
     void testProcessUpdateFormHasErrors() throws Exception {
         mockMvc.perform(post("/owners/{ownerId}/pets/{petId}/edit", TEST_OWNER_ID, TEST_PET_ID)
             .param("name", "Betty")
-            .param("birthDate", "2015/02/12")
+            .param("birthDate", "2015-02-12")
         )
             .andExpect(model().attributeHasNoErrors("owner"))
             .andExpect(model().attributeHasErrors("pet"))

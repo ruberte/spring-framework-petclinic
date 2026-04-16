@@ -19,7 +19,7 @@
             <petclinic:inputField label="Telephone" name="telephone"/>
             <spring:bind path="birthDate">
                 <c:set var="cssGroup" value="form-group ${status.error ? 'has-error' : '' }"/>
-                <c:set var="valid" value="${not status.error and not empty status.actualValue}"/>
+                <c:set var="valid" value="${not status.error}"/>
                 <div class="${cssGroup}">
                     <label class="col-sm-2 control-label">Birth Date</label>
                     <div class="col-sm-10">

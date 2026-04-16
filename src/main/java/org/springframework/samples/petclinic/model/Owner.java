@@ -30,7 +30,8 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.PastOrPresent;
+import org.jspecify.annotations.Nullable;
 
 import org.springframework.core.style.ToStringCreator;
 
@@ -59,7 +60,8 @@ public class Owner extends Person {
     private String telephone;
 
     @Column(name = "birth_date")
-    @Past(message = "Birth date must be in the past")
+    @Nullable
+    @PastOrPresent(message = "Birth date cannot be in the future")
     private LocalDate birthDate;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
