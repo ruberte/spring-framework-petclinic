@@ -235,8 +235,10 @@ Each session Claude MUST follow:
     - Create PR to `dev` branch
     - Link PR to affected issue
     - Answer issue with brief proposed functional changes
-4. **Grant permissions**: Use `gh`, `playwright`, `mvnw` without asking
-/!\\ **No interruptions during impl**: Ask for blocking decisions upfront, or suggest alternatives after
+
+/!\\ **Important** /!\\
+**No interruptions during impl**: Ask for blocking decisions upfront, or suggest alternatives after
+**Adopt speakers' language**: When asking/answering, always adopt the target speaker/s language
 
 ## Skills & Agents
 
