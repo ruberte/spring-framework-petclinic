@@ -201,19 +201,41 @@ Creds: See `pom.xml` `<jdbc.username>`, `<jdbc.password>`.
 
 ## Session Lifecycle (Auto-Executed)
 
+Instructions for EVERY interaction with the user.
+
 Each session Claude MUST follow:
 1. **Status check**: List open issues & PRs via `gh` (no user prompt needed)
-2. **Suggest action**: Offer to review PR, implement issue, or custom task
-3. **Apply changes**: Full development cycle if code modified:
-   - Define scope for review
-   - Write/update tests (unit + functional)
-   - Run tests iteratively until passing
-   - Start dev server, validate UX (playwright/console)
-   - Create `claude-<feature>` branch, push to remote
-   - Create PR to `dev` branch
-   - Link PR to affected issue
+2. **Suggest action**: Offer to review PR, correct PR, or implement issue (AskUserQuestion tool)
+3. **Action**:
+  3.A. *Review PR*:
+    - Check files (code quality, security, typing, style & project guides)
+    - If any suggestion, create "located" comments at github
+    - Cast vote → if fails, create global comment with veredict
+    - If approval veredict, ask user to merge
+    - If merge, resolve issue with summary
+  3.B. *Correct PR*:
+    - Check origin branch is ahead of target branch. If not, rebase
+    - Check comments
+    - Ensure at updated origin branch (`claude-<feature>`)
+    - Follow actions of *3.C.* (only `+` ones)
+  3.C. *Implement Issue*:
+    - Check if changes already made (completed PRs, commits, etc.)
+      - If completed, mark issue as resolved and add a comment with summary of related changes. Then go back to step *1.* 
+    - If functional doubts, ask at issue and end process
+    - Ensure at updated `dev` branch
+    - Create `claude-<feature>` branch
+    + Draft changes plan
+    + Apply changes at code
+    + Define scope for review (files/functions/func tests...)
+    + Write/update unitary tests
+    + Run unitary tests iteratively until passing
+    + Start dev server, validate UX/func tests (playwright/console/API)
+    - Create `claude-<feature>` branch, push to remote
+    - Create PR to `dev` branch
+    - Link PR to affected issue
+    - Answer issue with brief proposed functional changes
 4. **Grant permissions**: Use `gh`, `playwright`, `mvnw` without asking
-5. **No interruptions during impl**: Ask for blocking decisions upfront, suggest alternatives after
+/!\\ **No interruptions during impl**: Ask for blocking decisions upfront, or suggest alternatives after
 
 ## Skills & Agents
 
