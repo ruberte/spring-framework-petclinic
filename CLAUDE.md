@@ -221,7 +221,8 @@ Each session Claude MUST follow:
   3.C. *Implement Issue*:
     - Check if changes already made (completed PRs, commits, etc.)
       - If completed, mark issue as resolved and add a comment with summary of related changes. Then go back to step *1.* 
-    - If functional doubts, ask at issue and end process
+    - If functional doubts:
+      - Ask all doubts (with suggestions/examples when possible) at github issue (new comment). Then go back to step *1.*
     - Ensure at updated `dev` branch
     - Create `claude-<feature>` branch
     + Draft changes plan
