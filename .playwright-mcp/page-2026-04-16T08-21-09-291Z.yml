@@ -1,0 +1,11 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e3]:
+      - link [ref=e4] [cursor=pointer]:
+        - /url: /
+      - button [ref=e6] [cursor=pointer]
+      - text:   
+  - generic [ref=e9]:
+    - heading "Welcome" [level=2] [ref=e10]
+    - img "A cat and a dog" [ref=e13]
+    - img "Sponsored by Pivotal" [ref=e17]

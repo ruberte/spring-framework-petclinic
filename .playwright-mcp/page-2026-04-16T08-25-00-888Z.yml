@@ -1,0 +1,57 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e3]:
+      - link [ref=e4] [cursor=pointer]:
+        - /url: /
+      - button [ref=e6] [cursor=pointer]
+      - text:   
+  - generic [ref=e9]:
+    - heading "Owner Information" [level=2] [ref=e10]
+    - table [ref=e11]:
+      - rowgroup [ref=e12]:
+        - row "Name George Franklin" [ref=e13]:
+          - rowheader "Name" [ref=e14]
+          - cell "George Franklin" [ref=e15]:
+            - strong [ref=e16]: George Franklin
+        - row "Address 110 W. Liberty St." [ref=e17]:
+          - rowheader "Address" [ref=e18]
+          - cell "110 W. Liberty St." [ref=e19]
+        - row "City Madison" [ref=e20]:
+          - rowheader "City" [ref=e21]
+          - cell "Madison" [ref=e22]
+        - row "Telephone 6085551023" [ref=e23]:
+          - rowheader "Telephone" [ref=e24]
+          - cell "6085551023" [ref=e25]
+    - link "Edit Owner" [ref=e26] [cursor=pointer]:
+      - /url: 1/edit
+    - link "Add New Pet" [ref=e27] [cursor=pointer]:
+      - /url: 1/pets/new
+    - heading "Pets and Visits" [level=2] [ref=e28]
+    - table [ref=e29]:
+      - rowgroup [ref=e30]:
+        - row "Name Leo Birth Date 2010-09-07 Type cat Visit Date Description Edit Pet Add Visit" [ref=e31]:
+          - columnheader "Name Leo Birth Date 2010-09-07 Type cat" [ref=e32]:
+            - generic [ref=e33]:
+              - term [ref=e34]: Name
+              - definition [ref=e35]: Leo
+              - term [ref=e36]: Birth Date
+              - definition [ref=e37]: 2010-09-07
+              - term [ref=e38]: Type
+              - definition [ref=e39]: cat
+          - cell "Visit Date Description Edit Pet Add Visit" [ref=e40]:
+            - table [ref=e41]:
+              - rowgroup [ref=e42]:
+                - row "Visit Date Description" [ref=e43]:
+                  - columnheader "Visit Date" [ref=e44]
+                  - columnheader "Description" [ref=e45]
+                  - columnheader [ref=e46]
+              - rowgroup [ref=e47]:
+                - row "Edit Pet Add Visit" [ref=e48]:
+                  - cell "Edit Pet" [ref=e49]:
+                    - link "Edit Pet" [ref=e50] [cursor=pointer]:
+                      - /url: /owners/1/pets/1/edit
+                  - cell "Add Visit" [ref=e51]:
+                    - link "Add Visit" [ref=e52] [cursor=pointer]:
+                      - /url: /owners/1/pets/1/visits/new
+                  - cell [ref=e53]
+    - img "Sponsored by Pivotal" [ref=e57]

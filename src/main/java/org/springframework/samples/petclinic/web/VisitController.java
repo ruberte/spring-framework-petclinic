@@ -88,4 +88,14 @@ public class VisitController {
         return "visitList";
     }
 
+    @PostMapping(value = "/owners/{ownerId}/pets/{petId}/visits/{visitId}/delete")
+    public String deleteVisit(@PathVariable int ownerId, @PathVariable int petId, @PathVariable int visitId) {
+        Visit visit = this.clinicService.findPetById(petId).getVisits().stream()
+            .filter(v -> v.getId() == visitId)
+            .findFirst()
+            .orElseThrow(() -> new IllegalArgumentException("Visit not found"));
+        this.clinicService.deleteVisit(visit);
+        return "redirect:/owners/" + ownerId;
+    }
+
 }
