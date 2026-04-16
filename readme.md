@@ -40,12 +40,20 @@ Our issue tracker is available here: https://github.com/spring-petclinic/spring-
 
 ## Database configuration
 
-In its default configuration, Petclinic uses an in-memory database (H2) which gets populated at startup with data.
+In its default configuration, Petclinic uses an **H2 database with persistent file-based storage** in the `./data/` directory. The database is initialized with sample data on first startup, and your changes will persist across application restarts.
 
-A similar setups is provided for MySQL and PostgreSQL in case a persistent database configuration is needed.
-To run petclinic locally using persistent database, it is needed to run with profile defined in main pom.xml file.
+To start with fresh sample data, simply delete the `./data/` directory before starting the application:
 
-For MySQL database, it is needed to run with 'MySQL' profile defined in main pom.xml file.
+```
+rm -rf data/
+./mvnw jetty:run-war
+```
+
+**Note for developers:** Tests always use an in-memory H2 database to ensure isolation and fast execution. Test data does not persist.
+
+### Using MySQL Database
+
+A similar setup is provided for MySQL in case a persistent database configuration is needed. To run with MySQL, use the 'MySQL' profile defined in main pom.xml file.
 
 ```
 ./mvnw jetty:run-war -P MySQL
