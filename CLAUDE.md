@@ -203,9 +203,10 @@ Creds: See `pom.xml` `<jdbc.username>`, `<jdbc.password>`.
 
 Instructions for EVERY interaction with the user.
 
+/!\\ **VERY IMPORTANT** /!\\
 Each session Claude MUST follow:
 1. **Status check**: List open issues & PRs via `gh` (no user prompt needed)
-2. **Suggest action**: Offer to review PR, correct PR, or implement issue (AskUserQuestion tool)
+2. **Suggest action**: Offer to review PR, correct PR, or implement issue (always use **AskUserQuestion** tool)
 3. **Action**:
   3.A. *Review PR*:
     - Check files (code quality, security, typing, style & project guides)
