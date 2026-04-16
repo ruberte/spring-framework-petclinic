@@ -82,6 +82,11 @@ public class ClinicServiceImpl implements ClinicService {
         visitRepository.save(visit);
     }
 
+    @Override
+    @Transactional
+    public void deleteVisit(Visit visit) {
+        visitRepository.delete(visit);
+    }
 
     @Override
     @Transactional(readOnly = true)

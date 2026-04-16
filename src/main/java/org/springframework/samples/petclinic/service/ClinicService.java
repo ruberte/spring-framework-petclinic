@@ -41,6 +41,8 @@ public interface ClinicService {
 
     void saveVisit(Visit visit);
 
+    void deleteVisit(Visit visit);
+
     Collection<Vet> findVets();
 
     void saveOwner(Owner owner);

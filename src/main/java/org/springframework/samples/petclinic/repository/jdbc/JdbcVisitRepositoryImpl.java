@@ -63,6 +63,12 @@ public class JdbcVisitRepositoryImpl implements VisitRepository {
         }
     }
 
+    @Override
+    public void delete(Visit visit) {
+        this.jdbcClient.sql("DELETE FROM visits WHERE id = :id")
+            .param("id", visit.getId())
+            .update();
+    }
 
     /**
      * Creates a {@link MapSqlParameterSource} based on data values from the supplied {@link Visit} instance.

@@ -39,6 +39,8 @@ public interface VisitRepository {
      */
     void save(Visit visit);
 
+    void delete(Visit visit);
+
     List<Visit> findByPetId(Integer petId);
 
 }

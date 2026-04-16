@@ -53,6 +53,10 @@ public class JpaVisitRepositoryImpl implements VisitRepository {
         }
     }
 
+    @Override
+    public void delete(Visit visit) {
+        this.em.remove(this.em.contains(visit) ? visit : this.em.merge(visit));
+    }
 
     @Override
     @SuppressWarnings("unchecked")
