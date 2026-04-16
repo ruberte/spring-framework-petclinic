@@ -48,6 +48,7 @@ CREATE TABLE IF NOT EXISTS owners (
   address VARCHAR(255),
   city VARCHAR(80),
   telephone VARCHAR(20),
+  birth_date DATE,
   CONSTRAINT pk_owners PRIMARY KEY (id)
 );
 

@@ -199,6 +199,22 @@ Creds: See `pom.xml` `<jdbc.username>`, `<jdbc.password>`.
 
 7. **SonarQube integration**: SonarQube on main (CI/CD). Fix high-priority issues before merge.
 
+## Session Lifecycle (Auto-Executed)
+
+Each session Claude MUST follow:
+1. **Status check**: List open issues & PRs via `gh` (no user prompt needed)
+2. **Suggest action**: Offer to review PR, implement issue, or custom task
+3. **Apply changes**: Full development cycle if code modified:
+   - Define scope for review
+   - Write/update tests (unit + functional)
+   - Run tests iteratively until passing
+   - Start dev server, validate UX (playwright/console)
+   - Create `claude-<feature>` branch, push to remote
+   - Create PR to `dev` branch
+   - Link PR to affected issue
+4. **Grant permissions**: Use `gh`, `playwright`, `mvnw` without asking
+5. **No interruptions during impl**: Ask for blocking decisions upfront, suggest alternatives after
+
 ## Skills & Agents
 
 - **`/test-runner`**: Run Maven tests with DB profiles. E.g., `/test-runner ClinicServiceTests MySQL`

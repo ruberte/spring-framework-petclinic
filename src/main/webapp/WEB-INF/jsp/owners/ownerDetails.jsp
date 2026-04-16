@@ -25,6 +25,10 @@
             <th id="telephone">Telephone</th>
             <td headers="telephone"><c:out value="${owner.telephone}"/></td>
         </tr>
+        <tr>
+            <th id="birthDate">Birth Date</th>
+            <td headers="birthDate"><petclinic:localDate date="${owner.birthDate}" pattern="yyyy-MM-dd"/></td>
+        </tr>
     </table>
 
     <spring:url value="{ownerId}/edit" var="editUrl">
