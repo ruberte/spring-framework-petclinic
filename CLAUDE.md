@@ -221,7 +221,8 @@ Each session Claude MUST follow:
   3.C. *Implement Issue*:
     - Check if changes already made (completed PRs, commits, etc.)
       - If completed, mark issue as resolved and add a comment with summary of related changes. Then go back to step *1.* 
-    - If functional doubts, ask at issue and end process
+    - If functional doubts:
+      - Ask all doubts (with suggestions/examples when possible) at github issue (new comment). Then go back to step *1.*
     - Ensure at updated `dev` branch
     - Create `claude-<feature>` branch
     + Draft changes plan
@@ -234,8 +235,10 @@ Each session Claude MUST follow:
     - Create PR to `dev` branch
     - Link PR to affected issue
     - Answer issue with brief proposed functional changes
-4. **Grant permissions**: Use `gh`, `playwright`, `mvnw` without asking
-/!\\ **No interruptions during impl**: Ask for blocking decisions upfront, or suggest alternatives after
+
+/!\\ **Important** /!\\
+**No interruptions during impl**: Ask for blocking decisions upfront, or suggest alternatives after
+**Adopt speakers' language**: When asking/answering, always adopt the target speaker/s language
 
 ## Skills & Agents
 
