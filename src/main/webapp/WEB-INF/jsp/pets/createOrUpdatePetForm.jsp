@@ -33,7 +33,7 @@
                     <petclinic:selectField name="type" label="Type " names="${types}" size="5"/>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">Photo</label>
+                    <label class="col-sm-2 control-label">Photo (Max 5MB)</label>
                     <div class="col-sm-10">
                         <input type="file" name="photoFile" accept="image/*" class="form-control"/>
                     </div>

@@ -124,8 +124,12 @@ class PetControllerTests {
 
     @Test
     void testCreationFormWithValidPhoto() throws Exception {
+        byte[] pngContent = new byte[] {
+            (byte) 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A,
+            0x00, 0x00, 0x00, 0x0D, 0x49, 0x48, 0x44, 0x52
+        };
         MockMultipartFile photoFile = new MockMultipartFile(
-            "photoFile", "photo.png", "image/png", "fake image content".getBytes()
+            "photoFile", "photo.png", "image/png", pngContent
         );
         mockMvc.perform(multipart("/owners/{ownerId}/pets/new", TEST_OWNER_ID)
             .file(photoFile)

@@ -1,0 +1,78 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e3]:
+      - link [ref=e4] [cursor=pointer]:
+        - /url: /
+      - list [ref=e7]:
+        - listitem [ref=e8]:
+          - link " Home" [ref=e9] [cursor=pointer]:
+            - /url: /
+            - generic [ref=e10]: 
+            - text: Home
+        - listitem [ref=e11]:
+          - link " Find owners" [ref=e12] [cursor=pointer]:
+            - /url: /owners/find
+            - generic [ref=e13]: 
+            - text: Find owners
+        - listitem [ref=e14]:
+          - link " Veterinarians" [ref=e15] [cursor=pointer]:
+            - /url: /vets
+            - generic [ref=e16]: 
+            - text: Veterinarians
+        - listitem [ref=e17]:
+          - link "Error" [ref=e18] [cursor=pointer]:
+            - /url: /oups
+            - text: Error
+  - generic [ref=e20]:
+    - heading "Owner Information" [level=2] [ref=e21]
+    - table [ref=e22]:
+      - rowgroup [ref=e23]:
+        - row "Name George Franklin" [ref=e24]:
+          - rowheader "Name" [ref=e25]
+          - cell "George Franklin" [ref=e26]:
+            - strong [ref=e27]: George Franklin
+        - row "Address 110 W. Liberty St." [ref=e28]:
+          - rowheader "Address" [ref=e29]
+          - cell "110 W. Liberty St." [ref=e30]
+        - row "City Madison" [ref=e31]:
+          - rowheader "City" [ref=e32]
+          - cell "Madison" [ref=e33]
+        - row "Telephone 6085551023" [ref=e34]:
+          - rowheader "Telephone" [ref=e35]
+          - cell "6085551023" [ref=e36]
+        - row "Birth Date" [ref=e37]:
+          - columnheader "Birth Date" [ref=e38]
+          - cell [ref=e39]
+    - link "Edit Owner" [ref=e40] [cursor=pointer]:
+      - /url: 1/edit
+    - link "Add New Pet" [ref=e41] [cursor=pointer]:
+      - /url: 1/pets/new
+    - heading "Pets and Visits" [level=2] [ref=e42]
+    - table [ref=e43]:
+      - rowgroup [ref=e44]:
+        - row "Name Leo Birth Date 2010-09-07 Type cat Visit Date Description Edit Pet Add Visit" [ref=e45]:
+          - columnheader "Name Leo Birth Date 2010-09-07 Type cat" [ref=e46]:
+            - generic [ref=e47]:
+              - term [ref=e48]: Name
+              - definition [ref=e49]: Leo
+              - term [ref=e50]: Birth Date
+              - definition [ref=e51]: 2010-09-07
+              - term [ref=e52]: Type
+              - definition [ref=e53]: cat
+          - cell "Visit Date Description Edit Pet Add Visit" [ref=e54]:
+            - table [ref=e55]:
+              - rowgroup [ref=e56]:
+                - row "Visit Date Description" [ref=e57]:
+                  - columnheader "Visit Date" [ref=e58]
+                  - columnheader "Description" [ref=e59]
+                  - columnheader [ref=e60]
+              - rowgroup [ref=e61]:
+                - row "Edit Pet Add Visit" [ref=e62]:
+                  - cell "Edit Pet" [ref=e63]:
+                    - link "Edit Pet" [ref=e64] [cursor=pointer]:
+                      - /url: /owners/1/pets/1/edit
+                  - cell "Add Visit" [ref=e65]:
+                    - link "Add Visit" [ref=e66] [cursor=pointer]:
+                      - /url: /owners/1/pets/1/visits/new
+                  - cell [ref=e67]
+    - img "Sponsored by Pivotal" [ref=e71]

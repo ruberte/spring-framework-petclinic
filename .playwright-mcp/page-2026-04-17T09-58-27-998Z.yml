@@ -1,0 +1,52 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e3]:
+      - link [ref=e4] [cursor=pointer]:
+        - /url: /
+      - list [ref=e7]:
+        - listitem [ref=e8]:
+          - link " Home" [ref=e9] [cursor=pointer]:
+            - /url: /
+            - generic [ref=e10]: 
+            - text: Home
+        - listitem [ref=e11]:
+          - link " Find owners" [ref=e12] [cursor=pointer]:
+            - /url: /owners/find
+            - generic [ref=e13]: 
+            - text: Find owners
+        - listitem [ref=e14]:
+          - link " Veterinarians" [ref=e15] [cursor=pointer]:
+            - /url: /vets
+            - generic [ref=e16]: 
+            - text: Veterinarians
+        - listitem [ref=e17]:
+          - link "Error" [ref=e18] [cursor=pointer]:
+            - /url: /oups
+            - text: Error
+  - generic [ref=e20]:
+    - heading "New Pet" [level=2] [ref=e21]
+    - generic [ref=e22]:
+      - generic [ref=e23]:
+        - generic [ref=e24]:
+          - generic [ref=e25]: Owner
+          - generic [ref=e26]: George Franklin
+        - generic [ref=e27]:
+          - generic [ref=e28]: Name
+          - textbox [ref=e30]
+        - generic [ref=e31]:
+          - generic [ref=e32]: Birth Date
+          - textbox [ref=e34] [cursor=pointer]
+        - generic [ref=e36]:
+          - generic [ref=e37]: Type
+          - listbox [ref=e39]:
+            - option "bird" [ref=e40]
+            - option "cat" [ref=e41]
+            - option "dog" [ref=e42]
+            - option "hamster" [ref=e43]
+            - option "lizard" [ref=e44]
+            - option "snake" [ref=e45]
+        - generic [ref=e46]:
+          - generic [ref=e47]: Photo
+          - button "Choose File" [ref=e49] [cursor=pointer]
+      - button "Add Pet" [ref=e52] [cursor=pointer]
+    - img "Sponsored by Pivotal" [ref=e56]
