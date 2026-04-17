@@ -65,6 +65,9 @@ public class Pet extends NamedEntity {
     @Column(name = "photo", columnDefinition = "LONGBLOB")
     private byte[] photo;
 
+    @Column(name = "photo_url")
+    private String photoUrl;
+
 
     public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
@@ -118,6 +121,14 @@ public class Pet extends NamedEntity {
 
     public void setPhoto(byte[] photo) {
         this.photo = photo;
+    }
+
+    public String getPhotoUrl() {
+        return this.photoUrl;
+    }
+
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
     }
 
 }

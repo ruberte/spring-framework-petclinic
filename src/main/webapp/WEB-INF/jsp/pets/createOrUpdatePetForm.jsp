@@ -38,6 +38,7 @@
                         <input type="file" name="photoFile" accept="image/*" class="form-control"/>
                     </div>
                 </div>
+                <petclinic:inputField label="Photo URL" name="photoUrl"/>
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">

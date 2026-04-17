@@ -42,6 +42,7 @@ CREATE TABLE IF NOT EXISTS pets (
   type_id    INTEGER NOT NULL,
   owner_id   INTEGER NOT NULL,
   photo      LONGBLOB,
+  photo_url  VARCHAR(500),
   CONSTRAINT fk_pets_owners FOREIGN KEY (owner_id) REFERENCES owners (id),
   CONSTRAINT fk_pets_types FOREIGN KEY (type_id) REFERENCES types (id)
 );

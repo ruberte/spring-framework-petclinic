@@ -49,6 +49,7 @@ CREATE TABLE IF NOT EXISTS pets (
   type_id INT(4) UNSIGNED NOT NULL,
   owner_id INT(4) UNSIGNED NOT NULL,
   photo LONGBLOB,
+  photo_url VARCHAR(500),
   INDEX(name),
   FOREIGN KEY (owner_id) REFERENCES owners(id),
   FOREIGN KEY (type_id) REFERENCES types(id)
