@@ -41,6 +41,7 @@ CREATE TABLE IF NOT EXISTS pets (
   birth_date DATE,
   type_id    INTEGER NOT NULL,
   owner_id   INTEGER NOT NULL,
+  photo      LONGBLOB,
   CONSTRAINT fk_pets_owners FOREIGN KEY (owner_id) REFERENCES owners (id),
   CONSTRAINT fk_pets_types FOREIGN KEY (type_id) REFERENCES types (id)
 );

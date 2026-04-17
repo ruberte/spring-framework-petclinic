@@ -25,9 +25,10 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.validation.Valid;
-
+import java.io.IOException;
 import java.util.Collection;
 
 /**
@@ -75,13 +76,18 @@ public class PetController {
     }
 
     @PostMapping(value = "/pets/new")
-    public String processCreationForm(Owner owner, @Valid Pet pet, BindingResult result, ModelMap model) {
+    public String processCreationForm(Owner owner, @Valid Pet pet, BindingResult result, ModelMap model,
+            @RequestParam(required = false) MultipartFile photoFile) throws IOException {
         if (StringUtils.hasLength(pet.getName()) && pet.isNew() && owner.getPet(pet.getName(), true) != null){
             result.rejectValue("name", "duplicate", "already exists");
         }
         if (result.hasErrors()) {
             model.put("pet", pet);
             return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
+        }
+
+        if (photoFile != null && !photoFile.isEmpty()) {
+            pet.setPhoto(photoFile.getBytes());
         }
 
         owner.addPet(pet);
@@ -97,10 +103,15 @@ public class PetController {
     }
 
     @PostMapping(value = "/pets/{petId}/edit")
-    public String processUpdateForm(@Valid Pet pet, BindingResult result, Owner owner, ModelMap model) {
+    public String processUpdateForm(@Valid Pet pet, BindingResult result, Owner owner, ModelMap model,
+            @RequestParam(required = false) MultipartFile photoFile) throws IOException {
         if (result.hasErrors()) {
             model.put("pet", pet);
             return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
+        }
+
+        if (photoFile != null && !photoFile.isEmpty()) {
+            pet.setPhoto(photoFile.getBytes());
         }
 
         owner.addPet(pet);

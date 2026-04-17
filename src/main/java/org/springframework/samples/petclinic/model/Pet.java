@@ -60,6 +60,9 @@ public class Pet extends NamedEntity {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pet", fetch = FetchType.EAGER)
     private Set<Visit> visits;
 
+    @Column(name = "photo", columnDefinition = "LONGBLOB")
+    private byte[] photo;
+
 
     public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
@@ -105,6 +108,14 @@ public class Pet extends NamedEntity {
     public void addVisit(Visit visit) {
         getVisitsInternal().add(visit);
         visit.setPet(this);
+    }
+
+    public byte[] getPhoto() {
+        return this.photo;
+    }
+
+    public void setPhoto(byte[] photo) {
+        this.photo = photo;
     }
 
 }
