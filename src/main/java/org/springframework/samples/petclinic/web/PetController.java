@@ -30,6 +30,8 @@ import org.springframework.web.multipart.MultipartFile;
 import jakarta.validation.Valid;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Arrays;
+import java.util.HashSet;
 
 /**
  * @author Juergen Hoeller
@@ -41,6 +43,8 @@ import java.util.Collection;
 public class PetController {
 
     private static final String VIEWS_PETS_CREATE_OR_UPDATE_FORM = "pets/createOrUpdatePetForm";
+    private static final long MAX_PHOTO_SIZE = 5 * 1024 * 1024;
+    private static final java.util.Set<String> ALLOWED_MIME_TYPES = new HashSet<>(Arrays.asList("image/jpeg", "image/png", "image/gif", "image/webp"));
     private final ClinicService clinicService;
 
     public PetController(ClinicService clinicService) {
@@ -77,9 +81,13 @@ public class PetController {
 
     @PostMapping(value = "/pets/new")
     public String processCreationForm(Owner owner, @Valid Pet pet, BindingResult result, ModelMap model,
-            @RequestParam(required = false) MultipartFile photoFile) throws IOException {
+            @RequestParam(required = false) MultipartFile photoFile) {
         if (StringUtils.hasLength(pet.getName()) && pet.isNew() && owner.getPet(pet.getName(), true) != null){
             result.rejectValue("name", "duplicate", "already exists");
+        }
+        if (validatePhoto(photoFile, result)) {
+            model.put("pet", pet);
+            return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
         }
         if (result.hasErrors()) {
             model.put("pet", pet);
@@ -87,7 +95,13 @@ public class PetController {
         }
 
         if (photoFile != null && !photoFile.isEmpty()) {
-            pet.setPhoto(photoFile.getBytes());
+            try {
+                pet.setPhoto(photoFile.getBytes());
+            } catch (IOException e) {
+                result.reject("photo", "Error reading photo file");
+                model.put("pet", pet);
+                return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
+            }
         }
 
         owner.addPet(pet);
@@ -104,19 +118,45 @@ public class PetController {
 
     @PostMapping(value = "/pets/{petId}/edit")
     public String processUpdateForm(@Valid Pet pet, BindingResult result, Owner owner, ModelMap model,
-            @RequestParam(required = false) MultipartFile photoFile) throws IOException {
+            @RequestParam(required = false) MultipartFile photoFile) {
+        if (validatePhoto(photoFile, result)) {
+            model.put("pet", pet);
+            return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
+        }
         if (result.hasErrors()) {
             model.put("pet", pet);
             return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
         }
 
         if (photoFile != null && !photoFile.isEmpty()) {
-            pet.setPhoto(photoFile.getBytes());
+            try {
+                pet.setPhoto(photoFile.getBytes());
+            } catch (IOException e) {
+                result.reject("photo", "Error reading photo file");
+                model.put("pet", pet);
+                return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
+            }
         }
 
         owner.addPet(pet);
         this.clinicService.savePet(pet);
         return "redirect:/owners/{ownerId}";
+    }
+
+    private boolean validatePhoto(MultipartFile photoFile, BindingResult result) {
+        if (photoFile == null || photoFile.isEmpty()) {
+            return false;
+        }
+        if (photoFile.getSize() > MAX_PHOTO_SIZE) {
+            result.reject("photo", "Photo size must not exceed 5MB");
+            return true;
+        }
+        String contentType = photoFile.getContentType();
+        if (contentType == null || !ALLOWED_MIME_TYPES.contains(contentType)) {
+            result.reject("photo", "Only JPEG, PNG, GIF, and WebP images are allowed");
+            return true;
+        }
+        return false;
     }
 
 }
