@@ -219,6 +219,8 @@ Each session Claude MUST follow:
     - Check comments
     - Ensure at updated origin branch (`claude-<feature>`)
     - Follow actions of *3.C.* (only `+` ones)
+    - Update PR code (branch push)
+    - Answer PR comments with changes made
   3.C. *Implement Issue*:
     - Check if changes already made (completed PRs, commits, etc.)
       - If completed, mark issue as resolved and add a comment with summary of related changes. Then go back to step *1.* 
@@ -240,6 +242,7 @@ Each session Claude MUST follow:
 /!\\ **Important** /!\\
 **NO USER ASKING during steps `1.` and `3.`**: Ask for blocking decisions or suggest alternatives at issue (comment). Single exception at "merge" request.
 **Adopt speakers' language**: When asking/answering, always adopt the target speaker/s language
+**Declare yourself**: At any created comment at issues/PRs, add a watermark saying it was done by Claude Code.
 
 ## Skills & Agents
 
