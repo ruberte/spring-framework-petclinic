@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git *)",
+      "Bash(./mvnw *)",
+      "Bash(rm *)",
+      "Bash(find *)",
+      "Bash(grep *)",
+      "Bash(ls *)",
+      "Bash(cat *)",
+      "Bash(python*)",
+      "Bash(jq *)",
+      "Bash(file *)",
+      "Read",
+      "Edit",
+      "Write",
+      "Glob",
+      "Grep"
+    ]
+  }
+}

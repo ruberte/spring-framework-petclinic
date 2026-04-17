@@ -1,0 +1,29 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e3]:
+      - link [ref=e4] [cursor=pointer]:
+        - /url: /
+      - list [ref=e7]:
+        - listitem [ref=e8]:
+          - link " Home" [ref=e9] [cursor=pointer]:
+            - /url: /
+            - generic [ref=e10]: 
+            - text: Home
+        - listitem [ref=e11]:
+          - link " Find owners" [ref=e12] [cursor=pointer]:
+            - /url: /owners/find
+            - generic [ref=e13]: 
+            - text: Find owners
+        - listitem [ref=e14]:
+          - link " Veterinarians" [ref=e15] [cursor=pointer]:
+            - /url: /vets
+            - generic [ref=e16]: 
+            - text: Veterinarians
+        - listitem [ref=e17]:
+          - link "Error" [ref=e18] [cursor=pointer]:
+            - /url: /oups
+            - text: Error
+  - generic [ref=e20]:
+    - heading "Welcome" [level=2] [ref=e21]
+    - img "A cat and a dog" [ref=e24]
+    - img "Sponsored by Pivotal" [ref=e28]

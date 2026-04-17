@@ -17,7 +17,8 @@
             <c:if test="${pet['new']}">New </c:if> Pet
         </h2>
         <form:form modelAttribute="pet"
-                   class="form-horizontal">
+                   class="form-horizontal"
+                   enctype="multipart/form-data">
             <input type="hidden" name="id" value="${pet.id}"/>
             <div class="form-group has-feedback">
                 <div class="form-group">
@@ -30,6 +31,12 @@
                 <petclinic:inputField label="Birth Date" name="birthDate"/>
                 <div class="control-group">
                     <petclinic:selectField name="type" label="Type " names="${types}" size="5"/>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Photo (Max 5MB)</label>
+                    <div class="col-sm-10">
+                        <input type="file" name="photoFile" accept="image/*" class="form-control"/>
+                    </div>
                 </div>
             </div>
             <div class="form-group">

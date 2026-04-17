@@ -17,6 +17,7 @@ package org.springframework.samples.petclinic.model;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -59,6 +60,10 @@ public class Pet extends NamedEntity {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pet", fetch = FetchType.EAGER)
     private Set<Visit> visits;
+
+    @Basic(fetch = FetchType.LAZY)
+    @Column(name = "photo", columnDefinition = "LONGBLOB")
+    private byte[] photo;
 
 
     public void setBirthDate(LocalDate birthDate) {
@@ -105,6 +110,14 @@ public class Pet extends NamedEntity {
     public void addVisit(Visit visit) {
         getVisitsInternal().add(visit);
         visit.setPet(this);
+    }
+
+    public byte[] getPhoto() {
+        return this.photo;
+    }
+
+    public void setPhoto(byte[] photo) {
+        this.photo = photo;
     }
 
 }

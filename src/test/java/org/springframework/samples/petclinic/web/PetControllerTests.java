@@ -12,10 +12,12 @@ import org.springframework.samples.petclinic.service.ClinicService;
 import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.mock.web.MockMultipartFile;
 
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
@@ -115,6 +117,58 @@ class PetControllerTests {
             .param("birthDate", "2015-02-12")
         )
             .andExpect(model().attributeHasNoErrors("owner"))
+            .andExpect(model().attributeHasErrors("pet"))
+            .andExpect(status().isOk())
+            .andExpect(view().name("pets/createOrUpdatePetForm"));
+    }
+
+    @Test
+    void testCreationFormWithValidPhoto() throws Exception {
+        byte[] pngContent = new byte[] {
+            (byte) 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A,
+            0x00, 0x00, 0x00, 0x0D, 0x49, 0x48, 0x44, 0x52
+        };
+        MockMultipartFile photoFile = new MockMultipartFile(
+            "photoFile", "photo.png", "image/png", pngContent
+        );
+        mockMvc.perform(multipart("/owners/{ownerId}/pets/new", TEST_OWNER_ID)
+            .file(photoFile)
+            .param("name", "Betty")
+            .param("type", "hamster")
+            .param("birthDate", "2015-02-12")
+        )
+            .andExpect(status().is3xxRedirection())
+            .andExpect(view().name("redirect:/owners/{ownerId}"));
+    }
+
+    @Test
+    void testCreationFormWithOversizedPhoto() throws Exception {
+        byte[] largeFile = new byte[6 * 1024 * 1024];
+        MockMultipartFile photoFile = new MockMultipartFile(
+            "photoFile", "photo.png", "image/png", largeFile
+        );
+        mockMvc.perform(multipart("/owners/{ownerId}/pets/new", TEST_OWNER_ID)
+            .file(photoFile)
+            .param("name", "Betty")
+            .param("type", "hamster")
+            .param("birthDate", "2015-02-12")
+        )
+            .andExpect(model().attributeHasErrors("pet"))
+            .andExpect(status().isOk())
+            .andExpect(view().name("pets/createOrUpdatePetForm"));
+    }
+
+    @Test
+    void testCreationFormWithInvalidMimeType() throws Exception {
+        MockMultipartFile photoFile = new MockMultipartFile(
+            "photoFile", "file.txt", "text/plain", "not an image".getBytes()
+        );
+        mockMvc.perform(multipart("/owners/{ownerId}/pets/new", TEST_OWNER_ID)
+            .file(photoFile)
+            .param("name", "Betty")
+            .param("type", "hamster")
+            .param("birthDate", "2015-02-12")
+        )
             .andExpect(model().attributeHasErrors("pet"))
             .andExpect(status().isOk())
             .andExpect(view().name("pets/createOrUpdatePetForm"));

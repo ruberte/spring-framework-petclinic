@@ -25,10 +25,16 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.validation.Valid;
-
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Collection;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.logging.Logger;
 
 /**
  * @author Juergen Hoeller
@@ -39,7 +45,10 @@ import java.util.Collection;
 @RequestMapping("/owners/{ownerId}")
 public class PetController {
 
+    private static final Logger logger = Logger.getLogger(PetController.class.getName());
     private static final String VIEWS_PETS_CREATE_OR_UPDATE_FORM = "pets/createOrUpdatePetForm";
+    private static final long MAX_PHOTO_SIZE = 5 * 1024 * 1024;
+    private static final java.util.Set<String> ALLOWED_MIME_TYPES = new HashSet<>(Arrays.asList("image/jpeg", "image/png", "image/gif", "image/webp"));
     private final ClinicService clinicService;
 
     public PetController(ClinicService clinicService) {
@@ -75,9 +84,14 @@ public class PetController {
     }
 
     @PostMapping(value = "/pets/new")
-    public String processCreationForm(Owner owner, @Valid Pet pet, BindingResult result, ModelMap model) {
+    public String processCreationForm(Owner owner, @Valid Pet pet, BindingResult result, ModelMap model,
+            @RequestParam(required = false) MultipartFile photoFile) {
         if (StringUtils.hasLength(pet.getName()) && pet.isNew() && owner.getPet(pet.getName(), true) != null){
             result.rejectValue("name", "duplicate", "already exists");
+        }
+        if (!savePhoto(pet, photoFile, result)) {
+            model.put("pet", pet);
+            return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
         }
         if (result.hasErrors()) {
             model.put("pet", pet);
@@ -97,7 +111,12 @@ public class PetController {
     }
 
     @PostMapping(value = "/pets/{petId}/edit")
-    public String processUpdateForm(@Valid Pet pet, BindingResult result, Owner owner, ModelMap model) {
+    public String processUpdateForm(@Valid Pet pet, BindingResult result, Owner owner, ModelMap model,
+            @RequestParam(required = false) MultipartFile photoFile) {
+        if (!savePhoto(pet, photoFile, result)) {
+            model.put("pet", pet);
+            return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
+        }
         if (result.hasErrors()) {
             model.put("pet", pet);
             return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
@@ -106,6 +125,46 @@ public class PetController {
         owner.addPet(pet);
         this.clinicService.savePet(pet);
         return "redirect:/owners/{ownerId}";
+    }
+
+    private boolean savePhoto(Pet pet, MultipartFile photoFile, BindingResult result) {
+        if (photoFile == null || photoFile.isEmpty()) {
+            return true;
+        }
+        if (photoFile.getSize() > MAX_PHOTO_SIZE) {
+            result.reject("photo", "Photo size must not exceed 5MB");
+            return false;
+        }
+        String contentType = photoFile.getContentType();
+        if (contentType == null || !ALLOWED_MIME_TYPES.contains(contentType)) {
+            result.reject("photo", "Only JPEG, PNG, GIF, and WebP images are allowed");
+            return false;
+        }
+        if (!isValidImageMagic(photoFile)) {
+            result.reject("photo", "Invalid image file format");
+            return false;
+        }
+        try {
+            pet.setPhoto(photoFile.getBytes());
+        } catch (IOException e) {
+            logger.severe("Photo upload failed for pet " + pet.getId() + ": " + e.getMessage());
+            result.reject("photo", "Error reading photo file");
+            return false;
+        }
+        return true;
+    }
+
+    private boolean isValidImageMagic(MultipartFile file) {
+        try {
+            byte[] header = new byte[8];
+            file.getInputStream().read(header);
+            return (header[0] == (byte) 0xFF && header[1] == (byte) 0xD8) || // JPEG
+                   (header[0] == (byte) 0x89 && header[1] == 0x50) ||       // PNG
+                   (header[0] == 0x47 && header[1] == 0x49 && header[2] == 0x46) || // GIF
+                   (header[0] == 0x52 && header[1] == 0x49 && header[2] == 0x46 && header[4] == 0x57); // WebP
+        } catch (IOException e) {
+            return false;
+        }
     }
 
 }
