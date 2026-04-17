@@ -212,8 +212,8 @@ Each session Claude MUST follow:
     - Check files (code quality, security, typing, style & project guides)
     - If any suggestion, create "located" comments at github
     - Cast vote → if fails, create global comment with veredict
-    - If approval veredict, ask user to merge
-    - If merge, resolve issue with summary
+    - If approval veredict, ask user to merge (always use **AskUserQuestion** tool)
+    - If merge, resolve issue with summary. Otherwise, return to step *1.*
   3.B. *Correct PR*:
     - Check origin branch is ahead of target branch. If not, rebase
     - Check comments
@@ -238,7 +238,7 @@ Each session Claude MUST follow:
     - Answer issue with brief proposed functional changes
 
 /!\\ **Important** /!\\
-**No interruptions during impl**: Ask for blocking decisions upfront, or suggest alternatives after
+**NO USER ASKING during steps `1.` and `3.`**: Ask for blocking decisions or suggest alternatives at issue (comment). Single exception at "merge" request.
 **Adopt speakers' language**: When asking/answering, always adopt the target speaker/s language
 
 ## Skills & Agents
