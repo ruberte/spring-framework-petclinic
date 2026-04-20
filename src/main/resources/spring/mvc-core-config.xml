@@ -46,7 +46,7 @@
         </property>
     </bean>
 
-    <!-- Multipart file upload support (configured via WebApplicationInitializer) -->
+    <!-- Multipart file upload support (servlet multipart config in PetclinicInitializer) -->
     <bean id="multipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver"/>
 
     <!--
