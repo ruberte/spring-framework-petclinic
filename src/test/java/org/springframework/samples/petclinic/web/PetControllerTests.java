@@ -19,6 +19,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import org.springframework.http.MediaType;
 
 /**
  * Test class for the {@link PetController}
@@ -213,6 +214,36 @@ class PetControllerTests {
             .andExpect(model().attributeHasFieldErrors("pet", "photoUrl"))
             .andExpect(status().isOk())
             .andExpect(view().name("pets/createOrUpdatePetForm"));
+    }
+
+    @Test
+    void testGetPetPhoto_whenPhotoExists() throws Exception {
+        Pet pet = new Pet();
+        pet.setPhoto(new byte[]{1, 2, 3});
+        given(this.clinicService.findPetById(TEST_PET_ID)).willReturn(pet);
+
+        mockMvc.perform(get("/owners/{ownerId}/pets/{petId}/photo", TEST_OWNER_ID, TEST_PET_ID))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.IMAGE_JPEG))
+            .andExpect(content().bytes(new byte[]{1, 2, 3}));
+    }
+
+    @Test
+    void testGetPetPhoto_whenPhotoNotExists() throws Exception {
+        Pet pet = new Pet();
+        pet.setPhoto(null);
+        given(this.clinicService.findPetById(TEST_PET_ID)).willReturn(pet);
+
+        mockMvc.perform(get("/owners/{ownerId}/pets/{petId}/photo", TEST_OWNER_ID, TEST_PET_ID))
+            .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void testGetPetPhoto_whenPetNotExists() throws Exception {
+        given(this.clinicService.findPetById(TEST_PET_ID)).willReturn(null);
+
+        mockMvc.perform(get("/owners/{ownerId}/pets/{petId}/photo", TEST_OWNER_ID, TEST_PET_ID))
+            .andExpect(status().isNotFound());
     }
 
 }

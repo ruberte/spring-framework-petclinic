@@ -19,6 +19,10 @@ import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.PetType;
 import org.springframework.samples.petclinic.service.ClinicService;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
@@ -165,6 +169,17 @@ public class PetController {
         } catch (IOException e) {
             return false;
         }
+    }
+
+    @GetMapping(value = "/pets/{petId}/photo")
+    public ResponseEntity<byte[]> getPetPhoto(@PathVariable("petId") int petId) {
+        Pet pet = this.clinicService.findPetById(petId);
+        if (pet == null || pet.getPhoto() == null) {
+            return ResponseEntity.notFound().build();
+        }
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.IMAGE_JPEG);
+        return new ResponseEntity<>(pet.getPhoto(), headers, HttpStatus.OK);
     }
 
 }

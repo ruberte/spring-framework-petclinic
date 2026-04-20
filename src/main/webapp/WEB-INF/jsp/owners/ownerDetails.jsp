@@ -58,9 +58,22 @@
                         <dd><petclinic:localDate date="${pet.birthDate}" pattern="yyyy-MM-dd"/></dd>
                         <dt>Type</dt>
                         <dd><c:out value="${pet.type.name}"/></dd>
-                        <c:if test="${not empty pet.photoUrl}">
+                        <c:if test="${not empty pet.photoUrl or not empty pet.photo}">
                             <dt>Photo</dt>
-                            <dd><img src="<c:out value="${pet.photoUrl}"/>" alt="<c:out value="${pet.name}"/>" style="max-width: 200px; height: auto; border-radius: 8px;"/></dd>
+                            <dd>
+                                <c:choose>
+                                    <c:when test="${not empty pet.photoUrl}">
+                                        <img src="<c:out value="${pet.photoUrl}"/>" alt="<c:out value="${pet.name}"/>" style="max-width: 200px; height: auto; border-radius: 8px;"/>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <spring:url value="/owners/{ownerId}/pets/{petId}/photo" var="photoUrl">
+                                            <spring:param name="ownerId" value="${owner.id}"/>
+                                            <spring:param name="petId" value="${pet.id}"/>
+                                        </spring:url>
+                                        <img src="${fn:escapeXml(photoUrl)}" alt="<c:out value="${pet.name}"/>" style="max-width: 200px; height: auto; border-radius: 8px;"/>
+                                    </c:otherwise>
+                                </c:choose>
+                            </dd>
                         </c:if>
                     </dl>
                 </th>
