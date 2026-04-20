@@ -217,22 +217,60 @@ class PetControllerTests {
     }
 
     @Test
-    void testGetPetPhoto_whenPhotoExists() throws Exception {
+    void testGetPetPhoto_whenPhotoExists_jpeg() throws Exception {
+        Owner owner = new Owner();
+        owner.setId(TEST_OWNER_ID);
         Pet pet = new Pet();
-        pet.setPhoto(new byte[]{1, 2, 3});
-        given(this.clinicService.findPetById(TEST_PET_ID)).willReturn(pet);
+        pet.setId(TEST_PET_ID);
+        pet.setPhoto(new byte[]{(byte)0xFF, (byte)0xD8, 0x01, 0x02});
+        owner.addPet(pet);
+        given(this.clinicService.findOwnerById(TEST_OWNER_ID)).willReturn(owner);
 
         mockMvc.perform(get("/owners/{ownerId}/pets/{petId}/photo", TEST_OWNER_ID, TEST_PET_ID))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.IMAGE_JPEG))
-            .andExpect(content().bytes(new byte[]{1, 2, 3}));
+            .andExpect(content().bytes(new byte[]{(byte)0xFF, (byte)0xD8, 0x01, 0x02}));
+    }
+
+    @Test
+    void testGetPetPhoto_whenPhotoExists_png() throws Exception {
+        Owner owner = new Owner();
+        owner.setId(TEST_OWNER_ID);
+        Pet pet = new Pet();
+        pet.setId(TEST_PET_ID);
+        pet.setPhoto(new byte[]{(byte)0x89, 0x50, 0x4E, 0x47});
+        owner.addPet(pet);
+        given(this.clinicService.findOwnerById(TEST_OWNER_ID)).willReturn(owner);
+
+        mockMvc.perform(get("/owners/{ownerId}/pets/{petId}/photo", TEST_OWNER_ID, TEST_PET_ID))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.IMAGE_PNG));
+    }
+
+    @Test
+    void testGetPetPhoto_whenPhotoExists_gif() throws Exception {
+        Owner owner = new Owner();
+        owner.setId(TEST_OWNER_ID);
+        Pet pet = new Pet();
+        pet.setId(TEST_PET_ID);
+        pet.setPhoto(new byte[]{0x47, 0x49, 0x46, 0x38});
+        owner.addPet(pet);
+        given(this.clinicService.findOwnerById(TEST_OWNER_ID)).willReturn(owner);
+
+        mockMvc.perform(get("/owners/{ownerId}/pets/{petId}/photo", TEST_OWNER_ID, TEST_PET_ID))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.IMAGE_GIF));
     }
 
     @Test
     void testGetPetPhoto_whenPhotoNotExists() throws Exception {
+        Owner owner = new Owner();
+        owner.setId(TEST_OWNER_ID);
         Pet pet = new Pet();
+        pet.setId(TEST_PET_ID);
         pet.setPhoto(null);
-        given(this.clinicService.findPetById(TEST_PET_ID)).willReturn(pet);
+        owner.addPet(pet);
+        given(this.clinicService.findOwnerById(TEST_OWNER_ID)).willReturn(owner);
 
         mockMvc.perform(get("/owners/{ownerId}/pets/{petId}/photo", TEST_OWNER_ID, TEST_PET_ID))
             .andExpect(status().isNotFound());
@@ -240,7 +278,17 @@ class PetControllerTests {
 
     @Test
     void testGetPetPhoto_whenPetNotExists() throws Exception {
-        given(this.clinicService.findPetById(TEST_PET_ID)).willReturn(null);
+        Owner owner = new Owner();
+        owner.setId(TEST_OWNER_ID);
+        given(this.clinicService.findOwnerById(TEST_OWNER_ID)).willReturn(owner);
+
+        mockMvc.perform(get("/owners/{ownerId}/pets/{petId}/photo", TEST_OWNER_ID, TEST_PET_ID))
+            .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void testGetPetPhoto_whenOwnerNotExists() throws Exception {
+        given(this.clinicService.findOwnerById(TEST_OWNER_ID)).willReturn(null);
 
         mockMvc.perform(get("/owners/{ownerId}/pets/{petId}/photo", TEST_OWNER_ID, TEST_PET_ID))
             .andExpect(status().isNotFound());

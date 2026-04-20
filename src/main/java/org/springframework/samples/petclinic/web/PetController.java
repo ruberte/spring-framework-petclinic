@@ -172,14 +172,30 @@ public class PetController {
     }
 
     @GetMapping(value = "/pets/{petId}/photo")
-    public ResponseEntity<byte[]> getPetPhoto(@PathVariable("petId") int petId) {
-        Pet pet = this.clinicService.findPetById(petId);
+    public ResponseEntity<byte[]> getPetPhoto(Owner owner, @PathVariable("petId") int petId) {
+        if (owner == null) {
+            return ResponseEntity.notFound().build();
+        }
+        Pet pet = owner.getPets().stream()
+            .filter(p -> p.getId().equals(petId))
+            .findFirst()
+            .orElse(null);
         if (pet == null || pet.getPhoto() == null) {
             return ResponseEntity.notFound().build();
         }
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.IMAGE_JPEG);
+        headers.setContentType(detectContentType(pet.getPhoto()));
         return new ResponseEntity<>(pet.getPhoto(), headers, HttpStatus.OK);
+    }
+
+    private MediaType detectContentType(byte[] photo) {
+        if (photo.length < 4) return MediaType.IMAGE_JPEG;
+        if (photo[0] == (byte)0xFF && photo[1] == (byte)0xD8) return MediaType.IMAGE_JPEG;
+        if (photo[0] == (byte)0x89 && photo[1] == 0x50) return MediaType.IMAGE_PNG;
+        if (photo[0] == 0x47 && photo[1] == 0x49) return MediaType.IMAGE_GIF;
+        if (photo[0] == 0x52 && photo[1] == 0x49 && photo[2] == 0x46 && photo.length > 4 && photo[4] == 0x57)
+            return MediaType.parseMediaType("image/webp");
+        return MediaType.APPLICATION_OCTET_STREAM;
     }
 
 }
