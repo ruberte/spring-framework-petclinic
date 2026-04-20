@@ -77,4 +77,18 @@ class PetTests {
 
         assertEquals(pet.getId(), visit.getPet().getId());
     }
+
+    @Test
+    void photoUrl_shouldBeSettableAndGettable() {
+        String testUrl = "https://example.com/pet-photo.jpg";
+
+        pet.setPhotoUrl(testUrl);
+
+        assertEquals(testUrl, pet.getPhotoUrl());
+    }
+
+    @Test
+    void photoUrl_shouldDefaultToNull() {
+        assertNull(pet.getPhotoUrl());
+    }
 }

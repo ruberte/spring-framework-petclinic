@@ -21,6 +21,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+import java.util.regex.Pattern;
+
 /**
  * <code>Validator</code> for <code>Pet</code> forms.
  * <p>
@@ -34,6 +36,9 @@ import org.springframework.validation.Validator;
 public class PetValidator implements Validator {
 
     private static final String REQUIRED = "required";
+    private static final Pattern URL_PATTERN = Pattern.compile(
+        "^https?://[\\w.-]+(:[0-9]+)?(/[\\w./?%&=-]*)?$"
+    );
 
     @Override
     public void validate(Object obj, Errors errors) {
@@ -52,6 +57,17 @@ public class PetValidator implements Validator {
         // birth date validation
         if (pet.getBirthDate() == null) {
             errors.rejectValue("birthDate", REQUIRED, REQUIRED);
+        }
+
+        // photo URL validation
+        String photoUrl = pet.getPhotoUrl();
+        if (StringUtils.hasLength(photoUrl)) {
+            if (photoUrl.length() > 500) {
+                errors.rejectValue("photoUrl", "maxLength", "Photo URL must not exceed 500 characters");
+            }
+            if (!URL_PATTERN.matcher(photoUrl).matches()) {
+                errors.rejectValue("photoUrl", "invalidFormat", "Photo URL must be a valid HTTP/HTTPS URL");
+            }
         }
     }
 
