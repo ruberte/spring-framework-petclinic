@@ -65,7 +65,7 @@ public class Pet extends NamedEntity {
     @Column(name = "photo", columnDefinition = "LONGBLOB")
     private byte[] photo;
 
-    @Column(name = "photo_url")
+    @Column(name = "photo_url", length = 500)
     private String photoUrl;
 
 
