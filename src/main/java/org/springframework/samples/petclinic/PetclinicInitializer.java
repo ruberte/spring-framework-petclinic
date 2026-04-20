@@ -22,7 +22,9 @@ import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.support.AbstractDispatcherServletInitializer;
 
 import jakarta.servlet.Filter;
+import jakarta.servlet.MultipartConfigElement;
 import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletRegistration;
 
 
 /**
@@ -76,6 +78,15 @@ public class PetclinicInitializer extends AbstractDispatcherServletInitializer {
         // Used to provide the ability to enter Chinese characters inside the Owner Form
         CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter("UTF-8", true);
         return new Filter[]{characterEncodingFilter};
+    }
+
+    @Override
+    protected void customizeRegistration(ServletRegistration.Dynamic registration) {
+        // Configure multipart file upload support
+        // location: /tmp, maxFileSize: 5MB, maxRequestSize: 10MB, fileSizeThreshold: 0
+        registration.setMultipartConfig(
+            new MultipartConfigElement("/tmp", 5242880L, 10485760L, 0)
+        );
     }
 
 }

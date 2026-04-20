@@ -46,6 +46,9 @@
         </property>
     </bean>
 
+    <!-- Multipart file upload support (servlet multipart config in PetclinicInitializer) -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver"/>
+
     <!--
         - Message source for this context, loaded from localized "messages_xx" files.
         - Files are stored inside src/main/resources
