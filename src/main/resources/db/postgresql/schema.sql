@@ -65,6 +65,7 @@ CREATE TABLE IF NOT EXISTS pets (
   owner_id INT NOT NULL,
   photo BYTEA,
   photo_url VARCHAR(500),
+  microchip_id VARCHAR(15) UNIQUE,
   FOREIGN KEY (owner_id) REFERENCES owners(id),
   FOREIGN KEY (type_id) REFERENCES types(id),
   CONSTRAINT pk_pets PRIMARY KEY (id)

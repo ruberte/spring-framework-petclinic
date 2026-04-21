@@ -136,6 +136,7 @@ abstract class AbstractClinicServiceTests {
         Collection<PetType> types = this.clinicService.findPetTypes();
         pet.setType(EntityUtils.getById(types, PetType.class, 2));
         pet.setBirthDate(LocalDate.now());
+        pet.setMicrochipId("ABC123456789");
         owner6.addPet(pet);
         assertThat(owner6.getPets()).hasSize(found + 1);
 
@@ -160,6 +161,19 @@ abstract class AbstractClinicServiceTests {
 
         pet7 = this.clinicService.findPetById(7);
         assertThat(pet7.getName()).isEqualTo(newName);
+    }
+
+    @Test
+    @Transactional
+    public void shouldUpdatePetMicrochipId() {
+        Pet pet7 = this.clinicService.findPetById(7);
+
+        String microchipId = "XYZ987654321";
+        pet7.setMicrochipId(microchipId);
+        this.clinicService.savePet(pet7);
+
+        pet7 = this.clinicService.findPetById(7);
+        assertThat(pet7.getMicrochipId()).isEqualTo(microchipId);
     }
 
     @Test

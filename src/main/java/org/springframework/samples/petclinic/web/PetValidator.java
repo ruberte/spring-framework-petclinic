@@ -39,6 +39,7 @@ public class PetValidator implements Validator {
     private static final Pattern URL_PATTERN = Pattern.compile(
         "^https?://[\\w.-]+(:[0-9]+)?(/[\\w./?%&=-]*)?$"
     );
+    private static final Pattern MICROCHIP_PATTERN = Pattern.compile("^[A-Za-z0-9]+$");
 
     @Override
     public void validate(Object obj, Errors errors) {
@@ -67,6 +68,17 @@ public class PetValidator implements Validator {
             }
             if (!URL_PATTERN.matcher(photoUrl).matches()) {
                 errors.rejectValue("photoUrl", "invalidFormat", "Photo URL must be a valid HTTP/HTTPS URL");
+            }
+        }
+
+        // microchip ID validation
+        String microchipId = pet.getMicrochipId();
+        if (StringUtils.hasLength(microchipId)) {
+            if (microchipId.length() > 15) {
+                errors.rejectValue("microchipId", "maxLength", "Microchip ID must not exceed 15 characters");
+            }
+            if (!MICROCHIP_PATTERN.matcher(microchipId).matches()) {
+                errors.rejectValue("microchipId", "invalidFormat", "Microchip ID must contain only letters and numbers");
             }
         }
     }

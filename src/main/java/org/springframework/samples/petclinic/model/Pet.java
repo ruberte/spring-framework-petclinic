@@ -68,6 +68,9 @@ public class Pet extends NamedEntity {
     @Column(name = "photo_url", length = 500)
     private String photoUrl;
 
+    @Column(name = "microchip_id", unique = true, length = 15)
+    private String microchipId;
+
 
     public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
@@ -129,6 +132,14 @@ public class Pet extends NamedEntity {
 
     public void setPhotoUrl(String photoUrl) {
         this.photoUrl = photoUrl;
+    }
+
+    public String getMicrochipId() {
+        return this.microchipId;
+    }
+
+    public void setMicrochipId(String microchipId) {
+        this.microchipId = microchipId;
     }
 
 }
