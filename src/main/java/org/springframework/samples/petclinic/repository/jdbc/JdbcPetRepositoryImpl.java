@@ -56,7 +56,7 @@ public class JdbcPetRepositoryImpl implements PetRepository {
         this.insertPet = new SimpleJdbcInsert(dataSource)
             .withTableName("pets")
             .usingGeneratedKeyColumns("id")
-            .usingColumns("name", "birth_date", "type_id", "owner_id", "microchip_id", "color", "breed", "active", "weight");
+            .usingColumns("name", "birth_date", "type_id", "owner_id", "microchip_id", "color", "breed", "active", "weight", "notes");
 
         this.ownerRepository = ownerRepository;
     }
@@ -95,7 +95,7 @@ public class JdbcPetRepositoryImpl implements PetRepository {
             this.jdbcClient
                 .sql("""
                     UPDATE pets
-                    SET name=:name, birth_date=:birth_date, type_id=:type_id, owner_id=:owner_id, microchip_id=:microchip_id, color=:color, breed=:breed, active=:active, weight=:weight
+                    SET name=:name, birth_date=:birth_date, type_id=:type_id, owner_id=:owner_id, microchip_id=:microchip_id, color=:color, breed=:breed, active=:active, weight=:weight, notes=:notes
                     WHERE id=:id
                     """)
                 .paramSource(createPetParameterSource(pet))
@@ -132,7 +132,8 @@ public class JdbcPetRepositoryImpl implements PetRepository {
             .addValue("color", pet.getColor())
             .addValue("breed", pet.getBreed())
             .addValue("active", pet.isActive())
-            .addValue("weight", pet.getWeight());
+            .addValue("weight", pet.getWeight())
+            .addValue("notes", pet.getNotes());
     }
 
 }

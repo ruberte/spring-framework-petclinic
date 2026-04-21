@@ -135,4 +135,18 @@ class PetTests {
 
         assertTrue(pet.isActive());
     }
+
+    @Test
+    void notes_shouldBeSettableAndGettable() {
+        String testNotes = "Very friendly dog. Loves treats.\nAllergic to chicken.";
+
+        pet.setNotes(testNotes);
+
+        assertEquals(testNotes, pet.getNotes());
+    }
+
+    @Test
+    void notes_shouldDefaultToNull() {
+        assertNull(pet.getNotes());
+    }
 }
