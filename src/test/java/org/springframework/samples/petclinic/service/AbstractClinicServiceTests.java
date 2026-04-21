@@ -136,6 +136,7 @@ abstract class AbstractClinicServiceTests {
         Collection<PetType> types = this.clinicService.findPetTypes();
         pet.setType(EntityUtils.getById(types, PetType.class, 2));
         pet.setBirthDate(LocalDate.now());
+        pet.setMicrochipId("ABC123456789");
         owner6.addPet(pet);
         assertThat(owner6.getPets()).hasSize(found + 1);
 
@@ -146,6 +147,7 @@ abstract class AbstractClinicServiceTests {
         assertThat(owner6.getPets()).hasSize(found + 1);
         // checks that id has been generated
         assertThat(pet.getId()).isNotNull();
+        assertThat(pet.getMicrochipId()).isEqualTo("ABC123456789");
     }
 
     @Test
@@ -160,6 +162,19 @@ abstract class AbstractClinicServiceTests {
 
         pet7 = this.clinicService.findPetById(7);
         assertThat(pet7.getName()).isEqualTo(newName);
+    }
+
+    @Test
+    @Transactional
+    public void shouldUpdatePetMicrochipId() {
+        Pet pet7 = this.clinicService.findPetById(7);
+
+        String microchipId = "XYZ987654321";
+        pet7.setMicrochipId(microchipId);
+        this.clinicService.savePet(pet7);
+
+        pet7 = this.clinicService.findPetById(7);
+        assertThat(pet7.getMicrochipId()).isEqualTo(microchipId);
     }
 
     @Test
@@ -197,6 +212,42 @@ abstract class AbstractClinicServiceTests {
         assertThat(visitArr[0].getPet()).isNotNull();
         assertThat(visitArr[0].getDate()).isNotNull();
         assertThat(visitArr[0].getPet().getId()).isEqualTo(7);
+    }
+
+    @Test
+    @Transactional
+    void shouldRejectDuplicateMicrochipId() {
+        Owner owner6 = this.clinicService.findOwnerById(6);
+
+        // Create first pet with microchip
+        Pet pet1 = new Pet();
+        pet1.setName("FirstPet");
+        Collection<PetType> types = this.clinicService.findPetTypes();
+        pet1.setType(EntityUtils.getById(types, PetType.class, 2));
+        pet1.setBirthDate(LocalDate.now());
+        pet1.setMicrochipId("DUPLICATE123");
+        owner6.addPet(pet1);
+        this.clinicService.savePet(pet1);
+        this.clinicService.saveOwner(owner6);
+
+        // Reload owner to get fresh instance (avoid cascade on pet2)
+        Owner ownerFresh = this.clinicService.findOwnerById(6);
+
+        // Try to create second pet with same microchip
+        Pet pet2 = new Pet();
+        pet2.setName("SecondPet");
+        pet2.setType(EntityUtils.getById(types, PetType.class, 1));
+        pet2.setBirthDate(LocalDate.now());
+        pet2.setMicrochipId("DUPLICATE123");
+        ownerFresh.addPet(pet2);
+
+        try {
+            this.clinicService.savePet(pet2);
+            org.junit.jupiter.api.Assertions.fail("Expected IllegalArgumentException for duplicate microchip ID");
+        } catch (IllegalArgumentException ex) {
+            assertThat(ex.getMessage()).contains("DUPLICATE123");
+            assertThat(ex.getMessage()).contains("already registered");
+        }
     }
 
 

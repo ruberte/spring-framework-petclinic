@@ -26,6 +26,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -67,6 +69,11 @@ public class Pet extends NamedEntity {
 
     @Column(name = "photo_url", length = 500)
     private String photoUrl;
+
+    @Column(name = "microchip_id", unique = true, length = 15)
+    @Size(max = 15, message = "Microchip ID must not exceed 15 characters")
+    @Pattern(regexp = "^[A-Za-z0-9]*$", message = "Microchip ID must contain only letters and numbers")
+    private String microchipId;
 
 
     public void setBirthDate(LocalDate birthDate) {
@@ -129,6 +136,14 @@ public class Pet extends NamedEntity {
 
     public void setPhotoUrl(String photoUrl) {
         this.photoUrl = photoUrl;
+    }
+
+    public String getMicrochipId() {
+        return this.microchipId;
+    }
+
+    public void setMicrochipId(String microchipId) {
+        this.microchipId = microchipId;
     }
 
 }
