@@ -15,6 +15,7 @@
  */
 package org.springframework.samples.petclinic.web;
 
+import org.springframework.samples.petclinic.model.Gender;
 import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.PetType;
@@ -36,8 +37,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.logging.Logger;
 
 /**
@@ -62,6 +66,15 @@ public class PetController {
     @ModelAttribute("types")
     public Collection<PetType> populatePetTypes() {
         return this.clinicService.findPetTypes();
+    }
+
+    @ModelAttribute("genders")
+    public Map<Gender, String> populateGenders() {
+        Map<Gender, String> genders = new LinkedHashMap<>();
+        for (Gender gender : Gender.values()) {
+            genders.put(gender, "Gender." + gender.name());
+        }
+        return genders;
     }
 
     @ModelAttribute("owner")

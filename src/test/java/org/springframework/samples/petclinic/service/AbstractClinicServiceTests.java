@@ -22,6 +22,7 @@ import java.util.Collection;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Gender;
 import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.PetType;
@@ -239,6 +240,31 @@ abstract class AbstractClinicServiceTests {
         assertThat(visitArr[0].getPet()).isNotNull();
         assertThat(visitArr[0].getDate()).isNotNull();
         assertThat(visitArr[0].getPet().getId()).isEqualTo(7);
+    }
+
+    @Test
+    @Transactional
+    public void shouldInsertAndRetrievePetGender() {
+        Pet pet7 = this.clinicService.findPetById(7);
+
+        pet7.setGender(Gender.MACHO);
+        this.clinicService.savePet(pet7);
+
+        Pet retrievedPet = this.clinicService.findPetById(7);
+        assertThat(retrievedPet.getGender()).isEqualTo(Gender.MACHO);
+    }
+
+    @Test
+    @Transactional
+    public void shouldPreserveGenderWhenLoadingOwner() {
+        Pet pet1 = this.clinicService.findPetById(1);
+
+        pet1.setGender(Gender.HEMBRA);
+        this.clinicService.savePet(pet1);
+
+        Owner owner = this.clinicService.findOwnerById(1);
+        Pet retrievedPet = owner.getPets().get(0);
+        assertThat(retrievedPet.getGender()).isEqualTo(Gender.HEMBRA);
     }
 
     @Test
