@@ -66,6 +66,7 @@ public class JpaPetRepositoryImpl implements PetRepository {
     public Pet findByMicrochipId(String microchipId) {
         List<Pet> pets = this.em.createQuery("SELECT p FROM Pet p WHERE p.microchipId = :microchipId", Pet.class)
                 .setParameter("microchipId", microchipId)
+                .setFlushMode(jakarta.persistence.FlushModeType.COMMIT)
                 .getResultList();
         return pets.isEmpty() ? null : pets.get(0);
     }

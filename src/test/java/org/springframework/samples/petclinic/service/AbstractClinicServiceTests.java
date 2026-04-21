@@ -147,6 +147,7 @@ abstract class AbstractClinicServiceTests {
         assertThat(owner6.getPets()).hasSize(found + 1);
         // checks that id has been generated
         assertThat(pet.getId()).isNotNull();
+        assertThat(pet.getMicrochipId()).isEqualTo("ABC123456789");
     }
 
     @Test
@@ -214,6 +215,7 @@ abstract class AbstractClinicServiceTests {
     }
 
     @Test
+    @Transactional
     void shouldRejectDuplicateMicrochipId() {
         Owner owner6 = this.clinicService.findOwnerById(6);
 
@@ -226,6 +228,10 @@ abstract class AbstractClinicServiceTests {
         pet1.setMicrochipId("DUPLICATE123");
         owner6.addPet(pet1);
         this.clinicService.savePet(pet1);
+        this.clinicService.saveOwner(owner6);
+
+        // Reload owner to get fresh instance (avoid cascade on pet2)
+        Owner ownerFresh = this.clinicService.findOwnerById(6);
 
         // Try to create second pet with same microchip
         Pet pet2 = new Pet();
@@ -233,7 +239,7 @@ abstract class AbstractClinicServiceTests {
         pet2.setType(EntityUtils.getById(types, PetType.class, 1));
         pet2.setBirthDate(LocalDate.now());
         pet2.setMicrochipId("DUPLICATE123");
-        owner6.addPet(pet2);
+        ownerFresh.addPet(pet2);
 
         try {
             this.clinicService.savePet(pet2);
