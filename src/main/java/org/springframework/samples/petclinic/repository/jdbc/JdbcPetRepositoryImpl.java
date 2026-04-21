@@ -55,7 +55,8 @@ public class JdbcPetRepositoryImpl implements PetRepository {
 
         this.insertPet = new SimpleJdbcInsert(dataSource)
             .withTableName("pets")
-            .usingGeneratedKeyColumns("id");
+            .usingGeneratedKeyColumns("id")
+            .usingColumns("name", "birth_date", "type_id", "owner_id", "microchip_id", "color", "breed", "active");
 
         this.ownerRepository = ownerRepository;
     }
