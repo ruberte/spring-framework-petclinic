@@ -119,4 +119,20 @@ class PetTests {
     void breed_shouldDefaultToNull() {
         assertNull(pet.getBreed());
     }
+
+    @Test
+    void active_shouldDefaultToTrue() {
+        assertTrue(pet.isActive());
+    }
+
+    @Test
+    void active_shouldBeSettableAndGettable() {
+        pet.setActive(false);
+
+        assertFalse(pet.isActive());
+
+        pet.setActive(true);
+
+        assertTrue(pet.isActive());
+    }
 }

@@ -42,6 +42,12 @@
                 <petclinic:inputField label="Microchip ID" name="microchipId"/>
                 <petclinic:inputField label="Color" name="color"/>
                 <petclinic:inputField label="Breed" name="breed"/>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Active</label>
+                    <div class="col-sm-10">
+                        <form:checkbox path="active" class="form-check-input"/>
+                    </div>
+                </div>
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">

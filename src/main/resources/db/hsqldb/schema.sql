@@ -53,7 +53,8 @@ CREATE TABLE pets (
   photo_url    VARCHAR(500),
   microchip_id VARCHAR(15) UNIQUE,
   color        VARCHAR(50),
-  breed        VARCHAR(100)
+  breed        VARCHAR(100),
+  active       BOOLEAN NOT NULL DEFAULT TRUE
 );
 ALTER TABLE pets ADD CONSTRAINT fk_pets_owners FOREIGN KEY (owner_id) REFERENCES owners (id);
 ALTER TABLE pets ADD CONSTRAINT fk_pets_types FOREIGN KEY (type_id) REFERENCES types (id);
