@@ -55,7 +55,9 @@ CREATE TABLE pets (
   color        VARCHAR(50),
   breed        VARCHAR(100),
   active       BOOLEAN NOT NULL DEFAULT TRUE,
-  weight       DECIMAL(10, 2)
+  weight       DECIMAL(10, 2),
+  notes        LONGVARCHAR,
+  gender       VARCHAR(20)
 );
 ALTER TABLE pets ADD CONSTRAINT fk_pets_owners FOREIGN KEY (owner_id) REFERENCES owners (id);
 ALTER TABLE pets ADD CONSTRAINT fk_pets_types FOREIGN KEY (type_id) REFERENCES types (id);

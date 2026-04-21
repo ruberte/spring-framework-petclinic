@@ -49,6 +49,7 @@ CREATE TABLE IF NOT EXISTS pets (
   active       BOOLEAN NOT NULL DEFAULT TRUE,
   weight       DECIMAL(10, 2),
   notes        TEXT,
+  gender       VARCHAR(20),
   CONSTRAINT fk_pets_owners FOREIGN KEY (owner_id) REFERENCES owners (id),
   CONSTRAINT fk_pets_types FOREIGN KEY (type_id) REFERENCES types (id)
 );
@@ -66,3 +67,6 @@ CREATE INDEX IF NOT EXISTS visits_pet_id ON visits (pet_id);
 
 -- Migration: add notes column if not exists
 ALTER TABLE pets ADD COLUMN IF NOT EXISTS notes TEXT;
+
+-- Migration: add gender column if not exists
+ALTER TABLE pets ADD COLUMN IF NOT EXISTS gender VARCHAR(20);

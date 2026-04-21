@@ -149,4 +149,21 @@ class PetTests {
     void notes_shouldDefaultToNull() {
         assertNull(pet.getNotes());
     }
+
+    @Test
+    void gender_shouldBeSettableAndGettable() {
+        pet.setGender(Gender.MACHO);
+        assertEquals(Gender.MACHO, pet.getGender());
+
+        pet.setGender(Gender.HEMBRA);
+        assertEquals(Gender.HEMBRA, pet.getGender());
+
+        pet.setGender(Gender.DESCONOCIDO);
+        assertEquals(Gender.DESCONOCIDO, pet.getGender());
+    }
+
+    @Test
+    void gender_shouldDefaultToNull() {
+        assertNull(pet.getGender());
+    }
 }
