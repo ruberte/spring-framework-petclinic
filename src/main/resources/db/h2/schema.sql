@@ -44,6 +44,8 @@ CREATE TABLE IF NOT EXISTS pets (
   photo        LONGBLOB,
   photo_url    VARCHAR(500),
   microchip_id VARCHAR(15) UNIQUE,
+  color        VARCHAR(50),
+  breed        VARCHAR(100),
   CONSTRAINT fk_pets_owners FOREIGN KEY (owner_id) REFERENCES owners (id),
   CONSTRAINT fk_pets_types FOREIGN KEY (type_id) REFERENCES types (id)
 );

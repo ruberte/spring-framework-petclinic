@@ -62,6 +62,14 @@
                             <dt>Microchip ID</dt>
                             <dd><c:out value="${pet.microchipId}"/></dd>
                         </c:if>
+                        <c:if test="${not empty pet.color}">
+                            <dt>Color</dt>
+                            <dd><c:out value="${pet.color}"/></dd>
+                        </c:if>
+                        <c:if test="${not empty pet.breed}">
+                            <dt>Breed</dt>
+                            <dd><c:out value="${pet.breed}"/></dd>
+                        </c:if>
                         <c:if test="${not empty pet.photoUrl or not empty pet.photo}">
                             <dt>Photo</dt>
                             <dd>
