@@ -40,6 +40,8 @@
                 </div>
                 <petclinic:inputField label="Photo URL" name="photoUrl"/>
                 <petclinic:inputField label="Microchip ID" name="microchipId"/>
+                <petclinic:inputField label="Color" name="color"/>
+                <petclinic:inputField label="Breed" name="breed"/>
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">

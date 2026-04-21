@@ -294,4 +294,30 @@ class PetControllerTests {
             .andExpect(status().isNotFound());
     }
 
+    @Test
+    void testProcessCreationFormWithColorAndBreed() throws Exception {
+        mockMvc.perform(post("/owners/{ownerId}/pets/new", TEST_OWNER_ID)
+            .param("name", "Betty")
+            .param("type", "hamster")
+            .param("birthDate", "2015-02-12")
+            .param("color", "Brown")
+            .param("breed", "Syrian Hamster")
+        )
+            .andExpect(status().is3xxRedirection())
+            .andExpect(view().name("redirect:/owners/{ownerId}"));
+    }
+
+    @Test
+    void testProcessUpdateFormWithColorAndBreed() throws Exception {
+        mockMvc.perform(post("/owners/{ownerId}/pets/{petId}/edit", TEST_OWNER_ID, TEST_PET_ID)
+            .param("name", "Betty")
+            .param("type", "hamster")
+            .param("birthDate", "2015-02-12")
+            .param("color", "Golden")
+            .param("breed", "Golden Retriever")
+        )
+            .andExpect(status().is3xxRedirection())
+            .andExpect(view().name("redirect:/owners/{ownerId}"));
+    }
+
 }

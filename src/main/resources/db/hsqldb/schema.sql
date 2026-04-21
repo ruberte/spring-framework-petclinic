@@ -51,7 +51,9 @@ CREATE TABLE pets (
   owner_id     INTEGER NOT NULL,
   photo        LONGVARBINARY,
   photo_url    VARCHAR(500),
-  microchip_id VARCHAR(15) UNIQUE
+  microchip_id VARCHAR(15) UNIQUE,
+  color        VARCHAR(50),
+  breed        VARCHAR(100)
 );
 ALTER TABLE pets ADD CONSTRAINT fk_pets_owners FOREIGN KEY (owner_id) REFERENCES owners (id);
 ALTER TABLE pets ADD CONSTRAINT fk_pets_types FOREIGN KEY (type_id) REFERENCES types (id);

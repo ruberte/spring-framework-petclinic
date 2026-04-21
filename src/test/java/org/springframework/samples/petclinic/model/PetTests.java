@@ -91,4 +91,32 @@ class PetTests {
     void photoUrl_shouldDefaultToNull() {
         assertNull(pet.getPhotoUrl());
     }
+
+    @Test
+    void color_shouldBeSettableAndGettable() {
+        String testColor = "Golden";
+
+        pet.setColor(testColor);
+
+        assertEquals(testColor, pet.getColor());
+    }
+
+    @Test
+    void color_shouldDefaultToNull() {
+        assertNull(pet.getColor());
+    }
+
+    @Test
+    void breed_shouldBeSettableAndGettable() {
+        String testBreed = "Golden Retriever";
+
+        pet.setBreed(testBreed);
+
+        assertEquals(testBreed, pet.getBreed());
+    }
+
+    @Test
+    void breed_shouldDefaultToNull() {
+        assertNull(pet.getBreed());
+    }
 }

@@ -75,6 +75,14 @@ public class Pet extends NamedEntity {
     @Pattern(regexp = "^[A-Za-z0-9]*$", message = "Microchip ID must contain only letters and numbers")
     private String microchipId;
 
+    @Column(name = "color", length = 50)
+    @Size(max = 50, message = "Color must not exceed 50 characters")
+    private String color;
+
+    @Column(name = "breed", length = 100)
+    @Size(max = 100, message = "Breed must not exceed 100 characters")
+    private String breed;
+
 
     public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
@@ -144,6 +152,22 @@ public class Pet extends NamedEntity {
 
     public void setMicrochipId(String microchipId) {
         this.microchipId = microchipId;
+    }
+
+    public String getColor() {
+        return this.color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public String getBreed() {
+        return this.breed;
+    }
+
+    public void setBreed(String breed) {
+        this.breed = breed;
     }
 
 }
