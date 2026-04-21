@@ -86,6 +86,16 @@ public class PetValidator implements Validator {
                 pet.setMicrochipId(trimmed);
             }
         }
+
+        // weight validation
+        java.math.BigDecimal weight = pet.getWeight();
+        if (weight != null) {
+            if (weight.compareTo(java.math.BigDecimal.ZERO) <= 0) {
+                errors.rejectValue("weight", "invalidValue", "Weight must be greater than zero");
+            } else if (weight.compareTo(new java.math.BigDecimal("999.99")) > 0) {
+                errors.rejectValue("weight", "invalidValue", "Weight must not exceed 999.99 kg");
+            }
+        }
     }
 
     /**

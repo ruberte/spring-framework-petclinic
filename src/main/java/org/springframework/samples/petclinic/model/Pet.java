@@ -86,6 +86,9 @@ public class Pet extends NamedEntity {
     @Column(name = "active", nullable = false)
     private boolean active = true;
 
+    @Column(name = "weight", precision = 10, scale = 2)
+    private java.math.BigDecimal weight;
+
 
     public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
@@ -179,6 +182,14 @@ public class Pet extends NamedEntity {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public java.math.BigDecimal getWeight() {
+        return this.weight;
+    }
+
+    public void setWeight(java.math.BigDecimal weight) {
+        this.weight = weight;
     }
 
 }

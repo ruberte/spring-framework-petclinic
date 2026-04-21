@@ -75,6 +75,10 @@
                             <dt>Breed</dt>
                             <dd><c:out value="${pet.breed}"/></dd>
                         </c:if>
+                        <c:if test="${not empty pet.weight}">
+                            <dt>Weight</dt>
+                            <dd><c:out value="${pet.weight}"/> kg</dd>
+                        </c:if>
                         <c:if test="${not empty pet.photoUrl or not empty pet.photo}">
                             <dt>Photo</dt>
                             <dd>

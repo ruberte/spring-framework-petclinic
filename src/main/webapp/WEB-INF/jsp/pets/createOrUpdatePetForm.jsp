@@ -42,6 +42,7 @@
                 <petclinic:inputField label="Microchip ID" name="microchipId"/>
                 <petclinic:inputField label="Color" name="color"/>
                 <petclinic:inputField label="Breed" name="breed"/>
+                <petclinic:inputField label="Weight (kg)" name="weight"/>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Active</label>
                     <div class="col-sm-10">
