@@ -89,6 +89,17 @@ class PetValidatorTests {
         assertThat(errors.getFieldError("microchipId").getCode()).isEqualTo("invalidFormat");
     }
 
+    @Test
+    void shouldAcceptMicrochipIdWithExactly15Characters() {
+        Pet pet = createValidPet();
+        pet.setMicrochipId("123456789012345");
+
+        Errors errors = new BeanPropertyBindingResult(pet, "pet");
+        this.validator.validate(pet, errors);
+
+        assertThat(errors.hasErrors()).isFalse();
+    }
+
     private Pet createValidPet() {
         Pet pet = new Pet();
         pet.setName("TestPet");

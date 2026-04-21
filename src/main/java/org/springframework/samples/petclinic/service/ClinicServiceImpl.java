@@ -97,6 +97,13 @@ public class ClinicServiceImpl implements ClinicService {
     @Override
     @Transactional
     public void savePet(Pet pet) {
+        // Check microchip ID uniqueness if provided
+        if (pet.getMicrochipId() != null && !pet.getMicrochipId().isEmpty()) {
+            Pet existingPet = petRepository.findByMicrochipId(pet.getMicrochipId());
+            if (existingPet != null && !existingPet.getId().equals(pet.getId())) {
+                throw new IllegalArgumentException("Microchip ID " + pet.getMicrochipId() + " is already registered to another pet");
+            }
+        }
         petRepository.save(pet);
     }
 

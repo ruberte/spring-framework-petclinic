@@ -74,10 +74,12 @@ public class PetValidator implements Validator {
         // microchip ID validation
         String microchipId = pet.getMicrochipId();
         if (StringUtils.hasLength(microchipId)) {
-            if (microchipId.length() > 15) {
+            String trimmed = microchipId.trim();
+            if (trimmed.isEmpty()) {
+                errors.rejectValue("microchipId", "invalidFormat", "Microchip ID must contain only letters and numbers");
+            } else if (trimmed.length() > 15) {
                 errors.rejectValue("microchipId", "maxLength", "Microchip ID must not exceed 15 characters");
-            }
-            if (!MICROCHIP_PATTERN.matcher(microchipId).matches()) {
+            } else if (!MICROCHIP_PATTERN.matcher(trimmed).matches()) {
                 errors.rejectValue("microchipId", "invalidFormat", "Microchip ID must contain only letters and numbers");
             }
         }

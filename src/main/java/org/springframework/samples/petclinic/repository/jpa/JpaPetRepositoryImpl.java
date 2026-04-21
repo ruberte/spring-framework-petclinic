@@ -62,4 +62,12 @@ public class JpaPetRepositoryImpl implements PetRepository {
         }
     }
 
+    @Override
+    public Pet findByMicrochipId(String microchipId) {
+        List<Pet> pets = this.em.createQuery("SELECT p FROM Pet p WHERE p.microchipId = :microchipId", Pet.class)
+                .setParameter("microchipId", microchipId)
+                .getResultList();
+        return pets.isEmpty() ? null : pets.get(0);
+    }
+
 }

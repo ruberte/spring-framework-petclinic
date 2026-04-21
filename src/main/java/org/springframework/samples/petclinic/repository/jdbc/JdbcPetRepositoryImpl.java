@@ -102,6 +102,26 @@ public class JdbcPetRepositoryImpl implements PetRepository {
         }
     }
 
+    @Override
+    public Pet findByMicrochipId(String microchipId) {
+        try {
+            Integer ownerId = this.jdbcClient
+                .sql("SELECT owner_id FROM pets WHERE microchip_id=:microchipId")
+                .param("microchipId", microchipId)
+                .query(Integer.class)
+                .single();
+            Owner owner = this.ownerRepository.findById(ownerId);
+            for (Pet pet : owner.getPets()) {
+                if (microchipId.equals(pet.getMicrochipId())) {
+                    return pet;
+                }
+            }
+            return null;
+        } catch (EmptyResultDataAccessException ex) {
+            return null;
+        }
+    }
+
     /**
      * Creates a {@link MapSqlParameterSource} based on data values from the supplied {@link Pet} instance.
      */
