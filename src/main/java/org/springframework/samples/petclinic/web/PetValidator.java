@@ -81,6 +81,9 @@ public class PetValidator implements Validator {
                 errors.rejectValue("microchipId", "maxLength", "Microchip ID must not exceed 15 characters");
             } else if (!MICROCHIP_PATTERN.matcher(trimmed).matches()) {
                 errors.rejectValue("microchipId", "invalidFormat", "Microchip ID must contain only letters and numbers");
+            } else {
+                // Persist trimmed value to Pet object
+                pet.setMicrochipId(trimmed);
             }
         }
     }

@@ -213,5 +213,36 @@ abstract class AbstractClinicServiceTests {
         assertThat(visitArr[0].getPet().getId()).isEqualTo(7);
     }
 
+    @Test
+    void shouldRejectDuplicateMicrochipId() {
+        Owner owner6 = this.clinicService.findOwnerById(6);
+
+        // Create first pet with microchip
+        Pet pet1 = new Pet();
+        pet1.setName("FirstPet");
+        Collection<PetType> types = this.clinicService.findPetTypes();
+        pet1.setType(EntityUtils.getById(types, PetType.class, 2));
+        pet1.setBirthDate(LocalDate.now());
+        pet1.setMicrochipId("DUPLICATE123");
+        owner6.addPet(pet1);
+        this.clinicService.savePet(pet1);
+
+        // Try to create second pet with same microchip
+        Pet pet2 = new Pet();
+        pet2.setName("SecondPet");
+        pet2.setType(EntityUtils.getById(types, PetType.class, 1));
+        pet2.setBirthDate(LocalDate.now());
+        pet2.setMicrochipId("DUPLICATE123");
+        owner6.addPet(pet2);
+
+        try {
+            this.clinicService.savePet(pet2);
+            org.junit.jupiter.api.Assertions.fail("Expected IllegalArgumentException for duplicate microchip ID");
+        } catch (IllegalArgumentException ex) {
+            assertThat(ex.getMessage()).contains("DUPLICATE123");
+            assertThat(ex.getMessage()).contains("already registered");
+        }
+    }
+
 
 }

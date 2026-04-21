@@ -100,6 +100,30 @@ class PetValidatorTests {
         assertThat(errors.hasErrors()).isFalse();
     }
 
+    @Test
+    void shouldRejectWhitespaceOnlyMicrochipId() {
+        Pet pet = createValidPet();
+        pet.setMicrochipId("   ");
+
+        Errors errors = new BeanPropertyBindingResult(pet, "pet");
+        this.validator.validate(pet, errors);
+
+        assertThat(errors.getFieldErrorCount("microchipId")).isEqualTo(1);
+        assertThat(errors.getFieldError("microchipId").getCode()).isEqualTo("invalidFormat");
+    }
+
+    @Test
+    void shouldTrimWhitespaceFromMicrochipId() {
+        Pet pet = createValidPet();
+        pet.setMicrochipId("  ABC123  ");
+
+        Errors errors = new BeanPropertyBindingResult(pet, "pet");
+        this.validator.validate(pet, errors);
+
+        assertThat(errors.hasErrors()).isFalse();
+        assertThat(pet.getMicrochipId()).isEqualTo("ABC123");
+    }
+
     private Pet createValidPet() {
         Pet pet = new Pet();
         pet.setName("TestPet");
