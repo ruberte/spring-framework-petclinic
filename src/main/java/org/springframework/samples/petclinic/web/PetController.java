@@ -37,6 +37,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -67,8 +69,12 @@ public class PetController {
     }
 
     @ModelAttribute("genders")
-    public List<Gender> populateGenders() {
-        return Arrays.asList(Gender.values());
+    public Map<Gender, String> populateGenders() {
+        Map<Gender, String> genders = new LinkedHashMap<>();
+        for (Gender gender : Gender.values()) {
+            genders.put(gender, "Gender." + gender.name());
+        }
+        return genders;
     }
 
     @ModelAttribute("owner")

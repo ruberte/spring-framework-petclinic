@@ -77,7 +77,7 @@
                         </c:if>
                         <c:if test="${not empty pet.gender}">
                             <dt>Gender</dt>
-                            <dd><c:out value="${pet.gender}"/></dd>
+                            <dd><spring:message code="Gender.${pet.gender}"/></dd>
                         </c:if>
                         <c:if test="${not empty pet.weight}">
                             <dt>Weight</dt>

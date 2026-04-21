@@ -43,7 +43,7 @@
                 <petclinic:inputField label="Color" name="color"/>
                 <petclinic:inputField label="Breed" name="breed"/>
                 <div class="control-group">
-                    <petclinic:selectField name="gender" label="Gender" names="${genders}" size="3"/>
+                    <petclinic:selectFieldWithEmpty name="gender" label="Gender" names="${genders}" size="4" emptyLabel="-- Select Gender --"/>
                 </div>
                 <petclinic:inputField label="Weight (kg)" name="weight"/>
                 <div class="form-group">
