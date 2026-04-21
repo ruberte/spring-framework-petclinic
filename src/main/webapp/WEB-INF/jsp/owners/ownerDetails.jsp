@@ -79,6 +79,10 @@
                             <dt>Weight</dt>
                             <dd><c:out value="${pet.weight}"/> kg</dd>
                         </c:if>
+                        <c:if test="${not empty pet.notes}">
+                            <dt>Notes</dt>
+                            <dd style="white-space: pre-wrap;"><c:out value="${pet.notes}"/></dd>
+                        </c:if>
                         <c:if test="${not empty pet.photoUrl or not empty pet.photo}">
                             <dt>Photo</dt>
                             <dd>

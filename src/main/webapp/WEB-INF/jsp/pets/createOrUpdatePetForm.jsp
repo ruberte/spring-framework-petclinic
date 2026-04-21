@@ -49,6 +49,7 @@
                         <form:checkbox path="active" class="form-check-input"/>
                     </div>
                 </div>
+                <petclinic:textareaField label="Notes" name="notes" rows="4"/>
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
