@@ -83,6 +83,9 @@ public class Pet extends NamedEntity {
     @Size(max = 100, message = "Breed must not exceed 100 characters")
     private String breed;
 
+    @Column(name = "active", nullable = false)
+    private boolean active = true;
+
 
     public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
@@ -168,6 +171,14 @@ public class Pet extends NamedEntity {
 
     public void setBreed(String breed) {
         this.breed = breed;
+    }
+
+    public boolean isActive() {
+        return this.active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
 }
