@@ -178,6 +178,33 @@ abstract class AbstractClinicServiceTests {
     }
 
     @Test
+    @Transactional
+    public void shouldInsertAndRetrievePetWeight() {
+        Pet pet7 = this.clinicService.findPetById(7);
+        java.math.BigDecimal weight = new java.math.BigDecimal("12.50");
+
+        pet7.setWeight(weight);
+        this.clinicService.savePet(pet7);
+
+        Pet retrievedPet = this.clinicService.findPetById(7);
+        assertThat(retrievedPet.getWeight()).isEqualByComparingTo(weight);
+    }
+
+    @Test
+    @Transactional
+    public void shouldPreserveWeightWhenLoadingOwner() {
+        Pet pet1 = this.clinicService.findPetById(1);
+        java.math.BigDecimal weight = new java.math.BigDecimal("8.75");
+
+        pet1.setWeight(weight);
+        this.clinicService.savePet(pet1);
+
+        Owner owner = this.clinicService.findOwnerById(1);
+        Pet retrievedPet = owner.getPets().get(0);
+        assertThat(retrievedPet.getWeight()).isEqualByComparingTo(weight);
+    }
+
+    @Test
     void shouldFindVets() {
         Collection<Vet> vets = this.clinicService.findVets();
 

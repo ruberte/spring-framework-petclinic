@@ -124,6 +124,75 @@ class PetValidatorTests {
         assertThat(pet.getMicrochipId()).isEqualTo("ABC123");
     }
 
+    @Test
+    void shouldAcceptValidWeight() {
+        Pet pet = createValidPet();
+        pet.setWeight(new java.math.BigDecimal("5.50"));
+
+        Errors errors = new BeanPropertyBindingResult(pet, "pet");
+        this.validator.validate(pet, errors);
+
+        assertThat(errors.hasErrors()).isFalse();
+    }
+
+    @Test
+    void shouldAcceptNullWeight() {
+        Pet pet = createValidPet();
+        pet.setWeight(null);
+
+        Errors errors = new BeanPropertyBindingResult(pet, "pet");
+        this.validator.validate(pet, errors);
+
+        assertThat(errors.hasErrors()).isFalse();
+    }
+
+    @Test
+    void shouldRejectZeroWeight() {
+        Pet pet = createValidPet();
+        pet.setWeight(java.math.BigDecimal.ZERO);
+
+        Errors errors = new BeanPropertyBindingResult(pet, "pet");
+        this.validator.validate(pet, errors);
+
+        assertThat(errors.getFieldErrorCount("weight")).isEqualTo(1);
+        assertThat(errors.getFieldError("weight").getCode()).isEqualTo("invalidValue");
+    }
+
+    @Test
+    void shouldRejectNegativeWeight() {
+        Pet pet = createValidPet();
+        pet.setWeight(new java.math.BigDecimal("-5.00"));
+
+        Errors errors = new BeanPropertyBindingResult(pet, "pet");
+        this.validator.validate(pet, errors);
+
+        assertThat(errors.getFieldErrorCount("weight")).isEqualTo(1);
+        assertThat(errors.getFieldError("weight").getCode()).isEqualTo("invalidValue");
+    }
+
+    @Test
+    void shouldRejectWeightExceedingMaximum() {
+        Pet pet = createValidPet();
+        pet.setWeight(new java.math.BigDecimal("1000.00"));
+
+        Errors errors = new BeanPropertyBindingResult(pet, "pet");
+        this.validator.validate(pet, errors);
+
+        assertThat(errors.getFieldErrorCount("weight")).isEqualTo(1);
+        assertThat(errors.getFieldError("weight").getCode()).isEqualTo("invalidValue");
+    }
+
+    @Test
+    void shouldAcceptWeightAtMaximum() {
+        Pet pet = createValidPet();
+        pet.setWeight(new java.math.BigDecimal("999.99"));
+
+        Errors errors = new BeanPropertyBindingResult(pet, "pet");
+        this.validator.validate(pet, errors);
+
+        assertThat(errors.hasErrors()).isFalse();
+    }
+
     private Pet createValidPet() {
         Pet pet = new Pet();
         pet.setName("TestPet");

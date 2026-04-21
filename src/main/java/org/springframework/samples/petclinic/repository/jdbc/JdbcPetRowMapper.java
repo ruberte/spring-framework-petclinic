@@ -39,6 +39,7 @@ class JdbcPetRowMapper implements RowMapper<JdbcPet> {
         pet.setColor(rs.getString("color"));
         pet.setBreed(rs.getString("breed"));
         pet.setActive(rs.getBoolean("active"));
+        pet.setWeight(rs.getBigDecimal("weight"));
         return pet;
     }
 }
